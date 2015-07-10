@@ -6,7 +6,7 @@ public class TextMessage extends RelayMessage {
 
 	private static final long serialVersionUID = 1131375735982596434L;
 
-	public static final Unsigned16 CODE = Messages.TEXT_MESSAGE.getCode();
+	public static final Unsigned16 CODE = Messages.TEXT.getCode();
 
 	public TextMessage() {
 		code = CODE;

@@ -7,7 +7,7 @@ public class RegisterMessage extends SystemMessage {
 
 	private static final long serialVersionUID = -3062023030830378449L;
 
-	public static final transient Unsigned16 CODE = Unsigned16.get(3);
+	public static final transient Unsigned16 CODE = Messages.REGISTER.getCode();
 
 	public RegisterMessage() {
 		code = CODE;
@@ -15,6 +15,6 @@ public class RegisterMessage extends SystemMessage {
 
 	@Override
 	public boolean valid() {
-		return hasAttribute(Attributes.TOKEN.getCode());
+		return hasAttribute(Attributes.SENDER_ID.getCode(), Attributes.TOKEN.getCode());
 	}
 }

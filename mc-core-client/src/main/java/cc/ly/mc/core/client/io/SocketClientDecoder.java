@@ -41,8 +41,7 @@ public class SocketClientDecoder extends ByteToMessageDecoder {
 				return;
 			}
 			buffer.resetReaderIndex();
-			Message message = MessageFactory.getInstance()
-					.createMessage(buffer);
+			Message message = MessageFactory.getInstance().createMessage(buffer);
 			messages.add(message);
 		}
 	}

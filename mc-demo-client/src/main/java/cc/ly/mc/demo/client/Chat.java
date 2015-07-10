@@ -1,14 +1,14 @@
 package cc.ly.mc.demo.client;
 
+import cc.ly.mc.core.attribute.Attributes;
+import cc.ly.mc.core.attribute.impl.Integer32Attribute;
 import cc.ly.mc.core.attribute.impl.UTF8Attribute;
 import cc.ly.mc.core.client.io.SocketClient;
 import cc.ly.mc.core.context.Identity;
 import cc.ly.mc.core.context.IdentityContext;
 import cc.ly.mc.core.context.MessageContext;
+import cc.ly.mc.core.data.impl.*;
 import cc.ly.mc.demo.client.listener.TextMessageListener;
-import cc.ly.mc.core.data.impl.FlagImpl;
-import cc.ly.mc.core.data.impl.UTF8;
-import cc.ly.mc.core.data.impl.Unsigned16;
 import cc.ly.mc.core.event.EventManager;
 import cc.ly.mc.core.event.EventSource;
 import cc.ly.mc.core.io.ConnectedListener;
@@ -34,8 +34,6 @@ import cc.ly.mc.demo.client.listener.HopByHopAckMessageListener;
 import cc.ly.mc.demo.client.listener.ResponseMessageListener;
 import cc.ly.mc.core.message.RegisterMessage;
 import cc.ly.mc.core.message.TextMessage;
-import cc.ly.mc.core.data.impl.FlagData;
-import cc.ly.mc.core.data.impl.Integer64;
 import cc.ly.mc.core.event.EventListener;
 import cc.ly.mc.core.message.EndToEndAckMessage;
 import cc.ly.mc.core.message.HopByHopAckMessage;
@@ -49,7 +47,7 @@ public class Chat extends JFrame {
     private JTextField userIdField;
     private JTextField contentField;
     private SocketClient client;
-    private Long userId;
+    private Integer userId;
     private String userName;
     private final DefaultListModel<String> dataModel = new DefaultListModel<String>();
 
@@ -133,18 +131,17 @@ public class Chat extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("login");
-                userId = Long.parseLong(userIdField.getText());
+                userId = Integer.parseInt(userIdField.getText());
                 userName = userNameField.getText();
                 RegisterMessage reg = new RegisterMessage();
                 reg.hopByHop(MessageContext.INSTANCE.generateHopByHop());
                 reg.endToEnd(MessageContext.INSTANCE.generateEndToEnd());
                 reg.flag(new FlagData(FlagImpl.REQUEST));
-                Integer64Attribute id = new Integer64Attribute(Integer64 .get(userId));
-                id.code(Unsigned16.get(1));
+                Integer32Attribute id = new Integer32Attribute(Integer32.get(userId));
+                id.code(Attributes.SENDER_ID.getCode());
                 reg.addAttribute(id);
-                Integer64Attribute name = new Integer64Attribute(Integer64
-                        .get(Long.parseLong(userIdField.getText())));
-                name.code(Unsigned16.get(2));
+                UTF8Attribute name = new UTF8Attribute(new UTF8(userName));
+                name.code(Attributes.TOKEN.getCode());
                 reg.addAttribute(name);
                 IdentityContext.INSTANCE.getServer().write(reg);
             }
@@ -178,8 +175,8 @@ public class Chat extends JFrame {
                         new Integer64(Long.parseLong(strs[0])));
                 receiverId.code(Unsigned16.get(3));
                 txt.addAttribute(receiverId);
-                Integer64Attribute senderId = new Integer64Attribute(
-                        new Integer64(userId));
+                Integer32Attribute senderId = new Integer32Attribute(
+                        new Integer32(userId));
                 senderId.code(Unsigned16.get(1));
                 txt.addAttribute(senderId);
                 IdentityContext.INSTANCE.getServer().write(txt);

@@ -6,9 +6,9 @@ import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 
 public class Identity {
-    public static final Long SERVER_ID = 0L;
+    public static final Integer SERVER_ID = 0;
 
-    private Long id;
+    private Integer id;
     private ChannelHandlerContext context;
 
     public Identity(ChannelHandlerContext context) {
@@ -16,16 +16,16 @@ public class Identity {
         this.context = context;
     }
 
-    public Identity(long id, ChannelHandlerContext context) {
+    public Identity(Integer id, ChannelHandlerContext context) {
         this.id = id;
         this.context = context;
     }
 
-    public Long id() {
+    public Integer id() {
         return id;
     }
 
-    public void id(Long id) {
+    public void id(Integer id) {
         this.id = id;
     }
 

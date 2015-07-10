@@ -11,7 +11,7 @@ public class HopByHopAckMessage extends GenericMessage{
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(HopByHopAckMessage.class);
 
-	public static final Unsigned16 CODE = Messages.HOP_BY_HOP_ACK_MESSAGE.getCode();
+	public static final Unsigned16 CODE = Messages.HOP_BY_HOP_ACK.getCode();
 
 	public HopByHopAckMessage() {
 		code = CODE;

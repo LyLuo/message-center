@@ -1,6 +1,7 @@
 package cc.ly.mc.core.context;
 
 import cc.ly.mc.core.attribute.Attributes;
+import cc.ly.mc.core.data.impl.Integer32;
 import cc.ly.mc.core.message.Message;
 import cc.ly.mc.core.message.RelayMessage;
 import io.netty.channel.ChannelId;
@@ -14,15 +15,15 @@ public enum IdentityContext {
 
 	INSTANCE;
 
-	private final ConcurrentHashMap<Long, Identity> IDENTITIES = new ConcurrentHashMap<>();
+	private final ConcurrentHashMap<Integer, Identity> IDENTITIES = new ConcurrentHashMap<>();
 
-	private final ConcurrentHashMap<ChannelId, Long> CHANNEL_ID_TO_IDENTITY = new ConcurrentHashMap<>();
+	private final ConcurrentHashMap<ChannelId, Integer> CHANNEL_ID_TO_ID = new ConcurrentHashMap<>();
 
 	IdentityContext() {
 	}
 
 	public void forward(Message message) {
-		Long to = ((Integer64) message.attribute(Attributes.RECEIVER_ID.getCode()).data()) .get();
+		Integer to = ((Integer32) message.attribute(Attributes.RECEIVER_ID.getCode()).data()) .get();
 		Identity identity = get(to);
 		if(identity != null){
 			identity.write(message);
@@ -31,28 +32,29 @@ public enum IdentityContext {
 
 	public boolean add(Identity identity) {
 		if (IDENTITIES.putIfAbsent(identity.id(), identity) == null) {
-			CHANNEL_ID_TO_IDENTITY.put(identity.context().channel().id(), identity.id());
+			CHANNEL_ID_TO_ID.put(identity.context().channel().id(), identity.id());
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	public void remove(Long id) {
+	public void remove(Integer id) {
 		if (id != null) {
 			IDENTITIES.remove(id);
 		}
 	}
 
-	public void remove(ChannelId id) {
-		remove(CHANNEL_ID_TO_IDENTITY.remove(id));
+	public void remove(ChannelId channelId) {
+		remove(CHANNEL_ID_TO_ID.remove(channelId));
 	}
 	
-	public Identity get(ChannelId id){
-		return get(CHANNEL_ID_TO_IDENTITY.remove(id));
+	public Identity get(ChannelId channelId){
+		Integer id = CHANNEL_ID_TO_ID.get(channelId);
+		return IDENTITIES.get(id);
 	}
 
-	public Identity get(Long id) {
+	public Identity get(Integer id) {
 		return IDENTITIES.get(id);
 	}
 

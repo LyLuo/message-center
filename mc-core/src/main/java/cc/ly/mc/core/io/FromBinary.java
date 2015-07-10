@@ -8,8 +8,6 @@ public interface FromBinary{
 	 * 
 	 * @param buffer
 	 *            二进制数据
-	 * @param length
-	 *            消息长度
 	 */
 	void fromBinary(ByteBuf buffer);
 }

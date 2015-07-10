@@ -13,6 +13,11 @@ public class ResponseMessageListener implements EventListener {
 	@Override
 	public void update(EventSource event, Object object) {
 		ResponseMessage message = (ResponseMessage) object;
+		if(message.flag().get().isError()){
+			System.out.println("failed to register");
+		}else{
+			System.out.println("register successfully");
+		}
 		MessageContext.INSTANCE.deregisterAckTimeout(message);
 	}
 	

@@ -15,7 +15,7 @@ public class EndToEndAckMessage extends GenericMessage {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EndToEndAckMessage.class);
 
-	public static final Unsigned16 CODE = Messages.END_TO_END_ACK_MESSAGE.getCode();
+	public static final Unsigned16 CODE = Messages.END_TO_END_ACK.getCode();
 
 	public EndToEndAckMessage() {
 		code = CODE;

@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 public abstract class RelayMessage extends GenericMessage {
 
-    private static final Logger LOGGER = LoggerFactory .getLogger(RelayMessage.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RelayMessage.class);
 
     @Override
     public void onReceived() {
@@ -64,4 +64,11 @@ public abstract class RelayMessage extends GenericMessage {
         EventManager.getInstance().notifyListeners(this);
     }
 
+    @Override
+    public boolean valid() {
+        return hasAttribute(Attributes.SENDER_ID.getCode(),
+                            Attributes.SENDER_NAME.getCode(),
+                            Attributes.RECEIVER_ID.getCode(),
+                            Attributes.RECEIVER_NAME.getCode());
+    }
 }
