@@ -31,7 +31,6 @@ import javax.swing.border.EmptyBorder;
 import cc.ly.mc.core.attribute.impl.Integer64Attribute;
 import cc.ly.mc.demo.client.listener.EndToEndAckMessageListener;
 import cc.ly.mc.demo.client.listener.HopByHopAckMessageListener;
-import cc.ly.mc.demo.client.listener.ResponseMessageListener;
 import cc.ly.mc.core.message.RegisterMessage;
 import cc.ly.mc.core.message.TextMessage;
 import cc.ly.mc.core.event.EventListener;
