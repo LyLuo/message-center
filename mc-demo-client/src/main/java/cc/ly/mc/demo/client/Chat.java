@@ -37,7 +37,6 @@ import cc.ly.mc.core.message.TextMessage;
 import cc.ly.mc.core.event.EventListener;
 import cc.ly.mc.core.message.EndToEndAckMessage;
 import cc.ly.mc.core.message.HopByHopAckMessage;
-import cc.ly.mc.core.message.ResponseMessage;
 import io.netty.channel.ChannelHandlerContext;
 
 public class Chat extends JFrame {
@@ -85,7 +84,6 @@ public class Chat extends JFrame {
         EventManager.getInstance().registerListener(TextMessage.class, new TextMessageListener(dataModel));
         EventManager.getInstance().registerListener(HopByHopAckMessage.class, new HopByHopAckMessageListener());
         EventManager.getInstance().registerListener(EndToEndAckMessage.class, new EndToEndAckMessageListener());
-        EventManager.getInstance().registerListener(ResponseMessage.class, new ResponseMessageListener());
         EventManager.getInstance().registerListener(Timeout.class,
                 new EventListener() {
                     @Override
