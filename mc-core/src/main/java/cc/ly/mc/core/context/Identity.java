@@ -47,6 +47,7 @@ public class Identity {
             @Override
             public void operationComplete(Future<? super Void> future)
                     throws Exception {
+                System.out.println("send message");
                 Message message = (Message) obj;
                 if (future.isSuccess()) {
                     if (message.flag().get().isRequest()) {

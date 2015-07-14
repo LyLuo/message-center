@@ -34,9 +34,9 @@ public abstract class SystemMessage extends GenericMessage{
                     }
                 }
             });
+            EventManager.getInstance().notifyListeners(this);
         } else {
             LOGGER.error("not suppose to receive a system message");
         }
-        EventManager.getInstance().notifyListeners(this);
     }
 }

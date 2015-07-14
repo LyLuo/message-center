@@ -23,9 +23,9 @@ public class SocketClientDecoder extends ByteToMessageDecoder {
 	@Override
 	protected void decode(ChannelHandlerContext ctx, ByteBuf buffer,
 			List<Object> messages) throws Exception {
+		System.out.println("decode messages");
 		if (buffer.readableBytes() < GenericMessage.HEADER_LENGTH.get().longValue()) {
-			LOGGER.debug(
-					"buffer readableBytes {} is less than {},it is not engouh to decode ",
+			LOGGER.debug( "buffer readableBytes {} is less than {},it is not enough to decode ",
 					buffer.readableBytes(), GenericMessage.HEADER_LENGTH.get());
 			return;
 		} else {
@@ -34,8 +34,7 @@ public class SocketClientDecoder extends ByteToMessageDecoder {
 			long left = buffer.readUnsignedInt()
 					- SKIP_VERSION_CODE_FLAG_LENGTH;
 			if (buffer.readableBytes() < left) {
-				LOGGER.debug(
-						"buffer readableBytes {} is less than messge's length {},it is not engouh to decode ",
+				LOGGER.debug( "buffer readableBytes {} is less than messge's length {},it is not engouh to decode ",
 						buffer.readableBytes(), left);
 				buffer.resetReaderIndex();
 				return;

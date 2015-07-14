@@ -3,7 +3,7 @@ package cc.ly.mc.core.message;
 import cc.ly.mc.core.attribute.Attributes;
 import cc.ly.mc.core.data.impl.Unsigned16;
 
-public class RegisterResponseMessage extends SystemMessage {
+public class RegisterResponseMessage extends SystemResponseMessage {
 
 	private static final long serialVersionUID = 2131325745982592430L;
 
@@ -13,7 +13,6 @@ public class RegisterResponseMessage extends SystemMessage {
 		code = CODE;
 	}
 
-	@Override
 	public boolean valid() {
 		return hasAttribute(Attributes.SUCCESS.getCode());
 	}

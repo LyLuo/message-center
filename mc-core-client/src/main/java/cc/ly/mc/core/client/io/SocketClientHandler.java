@@ -31,7 +31,7 @@ public class SocketClientHandler extends SimpleChannelInboundHandler<Message> {
 			EventManager.getInstance().notifyListeners("InvalidMessage", message);
 		}else {
 			if (message instanceof RelayMessage || message instanceof EndToEndAckMessage
-					|| message instanceof HopByHopAckMessage) {
+					|| message instanceof HopByHopAckMessage || message instanceof SystemResponseMessage) {
 				message.arriveAtEndPoint(true);
 			}
 			message.context(context);

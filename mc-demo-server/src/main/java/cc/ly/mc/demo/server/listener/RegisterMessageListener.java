@@ -1,13 +1,11 @@
 package cc.ly.mc.demo.server.listener;
 
 import cc.ly.mc.core.attribute.Attributes;
+import cc.ly.mc.core.attribute.impl.BoolAttribute;
 import cc.ly.mc.core.context.Identity;
 import cc.ly.mc.core.context.IdentityContext;
 import cc.ly.mc.core.context.MessageContext;
-import cc.ly.mc.core.data.impl.FlagData;
-import cc.ly.mc.core.data.impl.FlagImpl;
-import cc.ly.mc.core.data.impl.Integer32;
-import cc.ly.mc.core.data.impl.UTF8;
+import cc.ly.mc.core.data.impl.*;
 import cc.ly.mc.core.event.EventListener;
 import cc.ly.mc.core.event.EventSource;
 import cc.ly.mc.core.message.RegisterMessage;
@@ -29,19 +27,20 @@ public class RegisterMessageListener implements EventListener {
         ApiServer api = new ApiServer();
         final Integer32 id = (Integer32) message.attribute(Attributes.SENDER_ID.getCode()).data();
         UTF8 token = (UTF8) message.attribute(Attributes.TOKEN.getCode()).data();
-        FlagImpl flag = FlagImpl.ERROR;
+        BoolAttribute success = new BoolAttribute(Bool.FALSE);
         if (api.validateToken(id.get(), token.get()).equals(ApiServer.SUCCESS)) {
             LOGGER.info("user {} with {} register successfully", id.get(), token.get());
             Identity identity = new Identity(id.get(), message.context());
             if (IdentityContext.INSTANCE.add(identity)) {
                 MessageContext.INSTANCE.register(message.context().channel().id());
             }
-            flag = FlagImpl.ANSWER;
+            success = new BoolAttribute(Bool.TRUE);
         }
         RegisterResponseMessage response = new RegisterResponseMessage();
         response.endToEnd(message.endToEnd());
         response.hopByHop(message.hopByHop());
-        response.flag(new FlagData(flag));
+        response.flag(new FlagData(FlagImpl.ANSWER));
+        response.addAttribute(success);
         message.context().writeAndFlush(response).addListener(new GenericFutureListener() {
             @Override
             public void operationComplete(Future future) throws Exception {
@@ -52,7 +51,7 @@ public class RegisterMessageListener implements EventListener {
                 }
             }
         });
-        if (flag == FlagImpl.ERROR){
+        if (success.data() == Bool.TRUE) {
             LOGGER.info("failed to register user {} with {},then close channel", id.get(), token.get());
             message.context().close();
         }

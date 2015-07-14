@@ -8,6 +8,9 @@ import cc.ly.mc.core.context.Identity;
 import cc.ly.mc.core.context.IdentityContext;
 import cc.ly.mc.core.context.MessageContext;
 import cc.ly.mc.core.data.impl.*;
+import cc.ly.mc.core.io.DisconnectedListener;
+import cc.ly.mc.core.message.*;
+import cc.ly.mc.demo.client.listener.RegisterResponseMessageListener;
 import cc.ly.mc.demo.client.listener.TextMessageListener;
 import cc.ly.mc.core.event.EventManager;
 import cc.ly.mc.core.event.EventSource;
@@ -31,11 +34,7 @@ import javax.swing.border.EmptyBorder;
 import cc.ly.mc.core.attribute.impl.Integer64Attribute;
 import cc.ly.mc.demo.client.listener.EndToEndAckMessageListener;
 import cc.ly.mc.demo.client.listener.HopByHopAckMessageListener;
-import cc.ly.mc.core.message.RegisterMessage;
-import cc.ly.mc.core.message.TextMessage;
 import cc.ly.mc.core.event.EventListener;
-import cc.ly.mc.core.message.EndToEndAckMessage;
-import cc.ly.mc.core.message.HopByHopAckMessage;
 import io.netty.channel.ChannelHandlerContext;
 
 public class Chat extends JFrame {
@@ -80,14 +79,21 @@ public class Chat extends JFrame {
                 MessageContext.INSTANCE.register(ctx.channel().id());
             }
         });
+        client.addDisconnectedListener(new DisconnectedListener() {
+            @Override
+            public void onDisconnect(ChannelHandlerContext ctx) {
+                System.out.println("connect closed " + ctx.channel());
+            }
+        });
         EventManager.getInstance().registerListener(TextMessage.class, new TextMessageListener(dataModel));
         EventManager.getInstance().registerListener(HopByHopAckMessage.class, new HopByHopAckMessageListener());
         EventManager.getInstance().registerListener(EndToEndAckMessage.class, new EndToEndAckMessageListener());
+        EventManager.getInstance().registerListener(RegisterResponseMessage.class, new RegisterResponseMessageListener());
         EventManager.getInstance().registerListener(Timeout.class,
                 new EventListener() {
                     @Override
                     public void update(EventSource event, Object object) {
-                        System.out.println("haha timeout happened");
+                        System.out.println( this + " timeout happened");
                     }
                 });
         client.start();
@@ -108,7 +114,7 @@ public class Chat extends JFrame {
         contentPane.add(userIdField);
         userIdField.setColumns(10);
 
-        JLabel lblNewLabel_1 = new JLabel("User Name");
+        JLabel lblNewLabel_1 = new JLabel("token");
         lblNewLabel_1.setBounds(26, 56, 83, 16);
         contentPane.add(lblNewLabel_1);
 
@@ -122,12 +128,11 @@ public class Chat extends JFrame {
         contentPane.add(contentField);
         contentField.setColumns(10);
 
-        JButton login = new JButton("Login");
+        JButton login = new JButton("register");
         login.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("login");
                 userId = Integer.parseInt(userIdField.getText());
                 userName = userNameField.getText();
                 RegisterMessage reg = new RegisterMessage();
@@ -166,15 +171,13 @@ public class Chat extends JFrame {
                 txt.endToEnd(MessageContext.INSTANCE.generateEndToEnd());
                 txt.flag(new FlagData(FlagImpl.REQUEST));
                 UTF8Attribute utf8 = new UTF8Attribute(new UTF8(contentField .getText()));
-                utf8.code(Unsigned16.get(5));
+                utf8.code(Attributes.CHAT_CONTENT.getCode());
                 txt.addAttribute(utf8);
-                Integer64Attribute receiverId = new Integer64Attribute(
-                        new Integer64(Long.parseLong(strs[0])));
-                receiverId.code(Unsigned16.get(3));
+                Integer32Attribute receiverId = new Integer32Attribute(Integer32.get(Integer.parseInt(strs[0])));
+                receiverId.code(Attributes.RECEIVER_ID.getCode());
                 txt.addAttribute(receiverId);
-                Integer32Attribute senderId = new Integer32Attribute(
-                        new Integer32(userId));
-                senderId.code(Unsigned16.get(1));
+                Integer32Attribute senderId = new Integer32Attribute(Integer32.get(userId));
+                senderId.code(Attributes.SENDER_ID.getCode());
                 txt.addAttribute(senderId);
                 IdentityContext.INSTANCE.getServer().write(txt);
             }
