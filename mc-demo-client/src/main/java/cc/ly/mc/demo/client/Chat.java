@@ -68,7 +68,7 @@ public class Chat extends JFrame {
      * Create the frame.
      */
     public Chat() {
-        client = new SocketClient("localhost", 9000);
+        client = new SocketClient("192.168.0.108", 9000);
         client.addConnectedListener(new ConnectedListener() {
 
             @Override

@@ -23,7 +23,6 @@ public class SocketClientDecoder extends ByteToMessageDecoder {
 	@Override
 	protected void decode(ChannelHandlerContext ctx, ByteBuf buffer,
 			List<Object> messages) throws Exception {
-		System.out.println("decode messages");
 		if (buffer.readableBytes() < GenericMessage.HEADER_LENGTH.get().longValue()) {
 			LOGGER.debug( "buffer readableBytes {} is less than {},it is not enough to decode ",
 					buffer.readableBytes(), GenericMessage.HEADER_LENGTH.get());
