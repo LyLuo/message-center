@@ -1,7 +1,5 @@
 package cc.ly.mc.core.context;
 
-import cc.ly.mc.core.attribute.Attribute;
-import cc.ly.mc.core.attribute.Attributes;
 import cc.ly.mc.core.data.impl.Integer64;
 import cc.ly.mc.core.message.*;
 import cc.ly.mc.core.util.EndToEndTimeout;
@@ -10,8 +8,6 @@ import cc.ly.mc.core.util.Timeout;
 import cc.ly.mc.core.util.TimeoutManager;
 import io.netty.channel.ChannelId;
 
-import java.util.Random;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -42,6 +38,12 @@ public enum MessageContext {
         ConcurrentHashMap<Integer64, Message> messages = repository.get(message.context().channel().id());
         if (messages != null) {
             messages.put(message.endToEnd(), message);
+        }
+    }
+
+    public void registerAcmTimeout(Message message) {
+        ConcurrentHashMap<Integer64, Message> messages = repository.get(message.context().channel().id());
+        if (messages != null) {
             if (!message.arriveAtEndPoint()) {
                 TimeoutManager.Slot endToEndSlot = timeoutManager.register(new EndToEndTimeout(message.endToEnd()));
                 message.object(EndToEndTimeout.class, endToEndSlot);

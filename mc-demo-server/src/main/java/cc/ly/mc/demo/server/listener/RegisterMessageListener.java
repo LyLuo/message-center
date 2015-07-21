@@ -51,7 +51,7 @@ public class RegisterMessageListener implements EventListener {
                 }
             }
         });
-        if (success.data() == Bool.TRUE) {
+        if (success.data() == Bool.FALSE) {
             LOGGER.info("failed to register user {} with {},then close channel", id.get(), token.get());
             message.context().close();
         }
