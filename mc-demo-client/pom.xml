@@ -35,7 +35,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>cc.ly.mc.core.client.Chat</mainClass>
+							<mainClass>cc.ly.mc.demo.client.Chat</mainClass>
 						</manifest>
 					</archive>
 					<outputDirectory>${project.build.directory}/libs/</outputDirectory>

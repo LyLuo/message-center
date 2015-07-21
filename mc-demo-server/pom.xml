@@ -35,7 +35,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>cc.ly.mc.core.server.App</mainClass>
+							<mainClass>cc.ly.mc.demo.server.App</mainClass>
 						</manifest>
 					</archive>
 					<outputDirectory>${project.build.directory}/libs/</outputDirectory>
