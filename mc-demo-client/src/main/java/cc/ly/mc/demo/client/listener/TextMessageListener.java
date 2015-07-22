@@ -22,7 +22,7 @@ public class TextMessageListener implements EventListener {
         StringBuilder builder = new StringBuilder();
         builder.append(message.attribute(Attributes.SENDER_ID.getCode()).data().get());
         builder.append(":");
-        builder.append(((String) message.attribute(Attributes.CHAT_CONTENT.getCode()).data().get()).split("\\:")[1]);
+        builder.append((String) message.attribute(Attributes.CHAT_CONTENT.getCode()).data().get());
         dataModel.addElement(builder.toString());
     }
 

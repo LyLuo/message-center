@@ -51,6 +51,7 @@ public class Identity {
                 if (future.isSuccess()) {
                     if (message.flag().get().isRequest()) {
                         message.context(context);
+                        MessageContext.INSTANCE.register(message);
                         MessageContext.INSTANCE.registerAcmTimeout(message);
                     }
                 } else {

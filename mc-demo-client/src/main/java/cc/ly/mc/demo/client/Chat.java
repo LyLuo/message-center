@@ -68,7 +68,7 @@ public class Chat extends JFrame {
      * Create the frame.
      */
     public Chat() {
-        client = new SocketClient("192.168.0.108", 9000);
+        client = new SocketClient("127.0.0.1", 9000);
         client.addConnectedListener(new ConnectedListener() {
 
             @Override
@@ -170,9 +170,12 @@ public class Chat extends JFrame {
                 txt.hopByHop(MessageContext.INSTANCE.generateHopByHop());
                 txt.endToEnd(MessageContext.INSTANCE.generateEndToEnd());
                 txt.flag(new FlagData(FlagImpl.REQUEST));
-                UTF8Attribute utf8 = new UTF8Attribute(new UTF8(contentField .getText()));
+                UTF8Attribute utf8 = new UTF8Attribute(new UTF8(strs[2]));
                 utf8.code(Attributes.CHAT_CONTENT.getCode());
                 txt.addAttribute(utf8);
+                UTF8Attribute senderName = new UTF8Attribute(new UTF8(strs[1]));
+                senderName.code(Attributes.SENDER_NAME.getCode());
+                txt.addAttribute(senderName);
                 Integer32Attribute receiverId = new Integer32Attribute(Integer32.get(Integer.parseInt(strs[0])));
                 receiverId.code(Attributes.RECEIVER_ID.getCode());
                 txt.addAttribute(receiverId);
