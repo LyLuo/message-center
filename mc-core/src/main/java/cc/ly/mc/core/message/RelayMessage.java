@@ -43,6 +43,7 @@ public abstract class RelayMessage extends GenericMessage {
                 }
             });
             message.context(this.context());
+            MessageContext.INSTANCE.register(message);
             MessageContext.INSTANCE.registerAckTimeout(message);
         } else {
             HopByHopAckMessage message = new HopByHopAckMessage();
