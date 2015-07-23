@@ -76,7 +76,6 @@
 				<includes>
 					<include>**/*.properties</include>
 				</includes>
-				<targetPath>../</targetPath>
 			</resource>
 		</resources>
 	</build>
