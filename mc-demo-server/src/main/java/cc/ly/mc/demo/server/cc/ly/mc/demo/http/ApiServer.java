@@ -1,5 +1,6 @@
 package cc.ly.mc.demo.server.cc.ly.mc.demo.http;
 
+import cc.ly.mc.demo.server.Constant;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ning.http.client.AsyncHttpClient;
@@ -28,22 +29,10 @@ public class ApiServer {
 
     public static final int SYSTEM_ERROR = 1000;
 
-    private static String API_URL = "http://www.jieshuba.cn/api";
-
-    static {
-        Properties properties = new Properties();
-        try {
-            properties.load(ApiServer.class.getClassLoader().getResourceAsStream("api.properties"));
-            API_URL = properties.get("api.url").toString();
-        } catch (IOException e) {
-            LOGGER.error("can not found api properties, use default", e);
-        }
-    }
-
     public Integer validateToken(Integer id, String token) {
         ObjectMapper objectMapper = new ObjectMapper();
         AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
-        AsyncHttpClient.BoundRequestBuilder builder = asyncHttpClient.prepareGet(API_URL + "/users/current");
+        AsyncHttpClient.BoundRequestBuilder builder = asyncHttpClient.prepareGet(Constant.API_URL + "/users/current");
         builder.addHeader(AUTHORIZATION_HEADER, token);
         Future<Response> f = builder.execute();
         Response r;
