@@ -4,6 +4,7 @@ import cc.ly.mc.core.attribute.Attribute;
 import cc.ly.mc.core.attribute.Attributes;
 import cc.ly.mc.core.attribute.impl.Integer64Attribute;
 import cc.ly.mc.core.context.IdentityContext;
+import cc.ly.mc.core.context.MessageContext;
 import cc.ly.mc.core.data.impl.FlagData;
 import cc.ly.mc.core.data.impl.FlagImpl;
 import cc.ly.mc.core.data.impl.Integer64;
@@ -41,6 +42,7 @@ public abstract class RelayMessage extends GenericMessage {
                     }
                 }
             });
+            MessageContext.INSTANCE.registerAckTimeout(message);
         } else {
             HopByHopAckMessage message = new HopByHopAckMessage();
             message.hopByHop(this.hopByHop);

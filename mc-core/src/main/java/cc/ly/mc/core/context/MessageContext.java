@@ -41,7 +41,7 @@ public enum MessageContext {
         }
     }
 
-    public void registerAcmTimeout(Message message) {
+    public void registerAckTimeout(Message message) {
         ConcurrentHashMap<Integer64, Message> messages = repository.get(message.context().channel().id());
         if (messages != null) {
             if (!message.arriveAtEndPoint()) {

@@ -52,7 +52,7 @@ public class Identity {
                     if (message.flag().get().isRequest()) {
                         message.context(context);
                         MessageContext.INSTANCE.register(message);
-                        MessageContext.INSTANCE.registerAcmTimeout(message);
+                        MessageContext.INSTANCE.registerAckTimeout(message);
                     }
                 } else {
                     System.out.println(future.cause());
