@@ -18,7 +18,7 @@ public enum Attributes {
     RECEIVER_ID(4, Integer32Attribute.class),
     RECEIVER_NAME(5, UTF8Attribute.class),
     CHAT_CONTENT(6, UTF8Attribute.class),
-    BOOK_ID(7, UTF8Attribute.class),
+    BOOK_ID(7, Integer32Attribute.class),
     BOOK_NAME(8, UTF8Attribute.class);
     private Unsigned16 code;
     private Class<? extends Attribute<?>> clazz;
