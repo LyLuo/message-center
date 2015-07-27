@@ -4,6 +4,7 @@ import cc.ly.mc.core.attribute.impl.BoolAttribute;
 import cc.ly.mc.core.attribute.impl.Integer32Attribute;
 import cc.ly.mc.core.attribute.impl.Integer64Attribute;
 import cc.ly.mc.core.attribute.impl.UTF8Attribute;
+import cc.ly.mc.core.data.impl.Integer32;
 import cc.ly.mc.core.data.impl.Unsigned16;
 
 /**
