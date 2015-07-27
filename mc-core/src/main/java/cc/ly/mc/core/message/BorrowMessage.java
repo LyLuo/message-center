@@ -20,7 +20,7 @@ public class BorrowMessage extends RelayMessage {
     @Override
     public boolean valid() {
         if (super.valid()) {
-            return hasAttribute(Attributes.BOOK_ID.getCode(), Attributes.BOOK_NAME.getCode(), Attributes.TOKEN.getCode());
+            return hasAttribute(Attributes.BOOK_ID.getCode(), Attributes.BOOK_NAME.getCode());
         }
         return false;
     }
