@@ -31,7 +31,10 @@ public enum IdentityContext {
 	}
 
 	public void add(Identity identity) {
-		IDENTITIES.put(identity.id(), identity);
+		Identity old = IDENTITIES.put(identity.id(), identity);
+		if(old != null){
+			old.context().close();
+		}
 		CHANNEL_ID_TO_ID.put(identity.context().channel().id(), identity.id());
 	}
 
