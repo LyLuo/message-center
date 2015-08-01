@@ -30,13 +30,9 @@ public enum IdentityContext {
 		}
 	}
 
-	public boolean add(Identity identity) {
-		if (IDENTITIES.putIfAbsent(identity.id(), identity) == null) {
-			CHANNEL_ID_TO_ID.put(identity.context().channel().id(), identity.id());
-			return true;
-		} else {
-			return false;
-		}
+	public void add(Identity identity) {
+		IDENTITIES.put(identity.id(), identity);
+		CHANNEL_ID_TO_ID.put(identity.context().channel().id(), identity.id());
 	}
 
 	public void remove(Integer id) {
@@ -61,4 +57,5 @@ public enum IdentityContext {
 	public Identity getServer(){
 		return IDENTITIES.get(Identity.SERVER_ID);
 	}
+
 }

@@ -31,9 +31,8 @@ public class RegisterMessageListener implements EventListener {
         if (api.validateToken(id.get(), token.get()).equals(ApiServer.SUCCESS)) {
             LOGGER.info("user {} with {} register successfully", id.get(), token.get());
             Identity identity = new Identity(id.get(), message.context());
-            if (IdentityContext.INSTANCE.add(identity)) {
-                MessageContext.INSTANCE.register(message.context().channel().id());
-            }
+            IdentityContext.INSTANCE.add(identity);
+            MessageContext.INSTANCE.register(message.context().channel().id());
             success = new BoolAttribute(Bool.TRUE);
         }
         RegisterResponseMessage response = new RegisterResponseMessage();
