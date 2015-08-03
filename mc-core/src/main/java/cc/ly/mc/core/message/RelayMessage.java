@@ -70,8 +70,6 @@ public abstract class RelayMessage extends GenericMessage {
 
     @Override
     public boolean valid() {
-        return hasAttribute(Attributes.SENDER_ID.getCode(),
-                            Attributes.SENDER_NAME.getCode(),
-                            Attributes.RECEIVER_ID.getCode());
+        return hasAttribute(Attributes.SENDER_ID.getCode(), Attributes.RECEIVER_ID.getCode());
     }
 }

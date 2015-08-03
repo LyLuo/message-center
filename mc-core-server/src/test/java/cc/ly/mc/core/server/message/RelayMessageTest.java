@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import cc.ly.mc.core.attribute.AttributeFactory;
 import cc.ly.mc.core.attribute.impl.IgnoredAttribute;
 import cc.ly.mc.core.attribute.impl.UTF8Attribute;
+import cc.ly.mc.core.message.BorrowMessage;
 import cc.ly.mc.core.message.GenericMessage;
 import cc.ly.mc.core.message.MessageFactory;
 import cc.ly.mc.core.message.RelayMessage;
@@ -39,9 +40,25 @@ public class RelayMessageTest {
 		}
 	}
 
+	public static class MockBorrowMessage extends RelayMessage {
+
+		private static final long serialVersionUID = 8780602667145271921L;
+
+		public static final Unsigned16 CODE = Unsigned16.get(8);
+
+		public MockBorrowMessage() {
+			code = CODE;
+		}
+
+		@Override
+		public void onReceived() {
+		}
+	}
+
 	@BeforeClass
 	public static void before() {
 		MessageFactory.getInstance().register(MockRelayMessage.class);
+		MessageFactory.getInstance().register(BorrowMessage.class);
 		AttributeFactory.getInstance().register(Unsigned16.get(4),
 				UTF8Attribute.class);
 		AttributeFactory.getInstance().register(Unsigned16.get(5),
@@ -82,6 +99,16 @@ public class RelayMessageTest {
 		Assert.assertEquals(message.attribute(Unsigned16.get(5)).length(),
 				Unsigned32.get(4L));
 		assertEquals(message.attribute(Unsigned16.get(5)).data().get(), "luo!");
+	}
+
+	@Test
+	public void testDecodeFromBytes(){
+		byte[] bytes = new byte[]{ (byte)0x00 ,(byte)0x00 ,(byte)0x08 ,(byte)0x02 ,(byte)0x00 ,(byte)0x00 ,(byte)0x00 ,(byte)0x80 ,(byte)0x00 ,(byte)0x00 ,(byte)0x00 ,(byte)0x00 ,(byte)0x00 ,(byte)0x00 ,(byte)0x00 ,(byte)0x04 ,(byte)0x00 ,(byte)0x00 ,(byte)0x00 ,(byte)0x00 ,(byte)0x00 ,(byte)0x00 ,(byte)0x00 ,(byte)0x04 ,(byte)0x00 ,(byte)0x02 ,(byte)0x00 ,(byte)0x00 ,(byte)0x00 ,(byte)0x04 ,(byte)0x00 ,(byte)0x00 ,(byte)0x00 ,(byte)0x02 ,(byte)0x00 ,(byte)0x03 ,(byte)0x00 ,(byte)0x00 ,(byte)0x00 ,(byte)0x06 ,(byte)0xe5 ,(byte)0x94 ,(byte)0x90 ,(byte)0xe5 ,(byte)0x94 ,(byte)0x90 ,(byte)0x00 ,(byte)0x04 ,(byte)0x00 ,(byte)0x00 ,(byte)0x00 ,(byte)0x04 ,(byte)0x00 ,(byte)0x00 ,(byte)0x00 ,(byte)0x01 ,(byte)0x00 ,(byte)0x07 ,(byte)0x00 ,(byte)0x00 ,(byte)0x00 ,(byte)0x04 ,(byte)0x00 ,(byte)0x00 ,(byte)0x00 ,(byte)0x01 ,(byte)0x00 ,(byte)0x08 ,(byte)0x00 ,(byte)0x00 ,(byte)0x00 ,(byte)0x06 ,(byte)0xe6 ,(byte)0x94 ,(byte)0x80 ,(byte)0xe9 ,(byte)0x92 ,(byte)0xa2 ,(byte)0x00 ,(byte)0x01 ,(byte)0x00 ,(byte)0x00 ,(byte)0x00 ,(byte)0x20 ,(byte)0x39 ,(byte)0x38 ,(byte)0x64 ,(byte)0x64 ,(byte)0x63 ,(byte)0x62 ,(byte)0x38 ,(byte)0x37 ,(byte)0x33 ,(byte)0x30 ,(byte)0x65 ,(byte)0x64 ,(byte)0x30 ,(byte)0x39 ,(byte)0x30 ,(byte)0x66 ,(byte)0x66 ,(byte)0x32 ,(byte)0x64 ,(byte)0x34 ,(byte)0x35 ,(byte)0x33 ,(byte)0x61 ,(byte)0x62 ,(byte)0x37 ,(byte)0x35 ,(byte)0x62 ,(byte)0x30 ,(byte)0x30 ,(byte)0x34 ,(byte)0x39 ,(byte)0x65 ,(byte)0x00 ,(byte)0x09 ,(byte)0x00 ,(byte)0x00 ,(byte)0x00 ,(byte)0x06 ,(byte)0xe5 ,(byte)0x92 ,(byte)0xaf ,(byte)0xe4 ,(byte)0xba ,(byte)0x86};
+		ByteBuf buffer = Unpooled.buffer();
+		buffer.writeBytes(bytes);
+		BorrowMessage message = (BorrowMessage) MessageFactory.getInstance().createMessage(buffer);
+		ByteBuf byteBuf = message.toBinary();
+		message = (BorrowMessage) MessageFactory.getInstance().createMessage(byteBuf);
 	}
 
 	@Test
