@@ -15,7 +15,8 @@ public enum Messages {
     DEREGISTER_RESPONSE(6, DeregisterResponseMessage.class),
     TEXT(7, TextMessage.class),
     BORROW(8, BorrowMessage.class),
-    BORROW_RESPONSE(9, BorrowResponseMessage.class);
+    BORROW_RESPONSE(9, BorrowResponseMessage.class),
+    RETURN_BOOK(10, ReturnBookMessage.class);
     private Unsigned16 code;
     private Class<? extends Message> clazz;
 
