@@ -3,13 +3,11 @@ package cc.ly.mc.core.context;
 import cc.ly.mc.core.attribute.Attributes;
 import cc.ly.mc.core.data.impl.Integer32;
 import cc.ly.mc.core.message.Message;
-import cc.ly.mc.core.message.RelayMessage;
 import io.netty.channel.ChannelId;
 
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
-
-import cc.ly.mc.core.data.impl.Integer64;
-import cc.ly.mc.core.data.impl.Unsigned16;
 
 public enum IdentityContext {
 
@@ -19,6 +17,8 @@ public enum IdentityContext {
 
 	private final ConcurrentHashMap<ChannelId, Integer> CHANNEL_ID_TO_ID = new ConcurrentHashMap<>();
 
+	private final ConcurrentHashMap<Integer, LinkedList<Message>> DELAY_MESSAGES = new ConcurrentHashMap<>();
+
 	IdentityContext() {
 	}
 
@@ -27,6 +27,13 @@ public enum IdentityContext {
 		Identity identity = get(to);
 		if(identity != null){
 			identity.write(message);
+		}else{
+			synchronized (this) {
+				if (!DELAY_MESSAGES.containsKey(to)) {
+					DELAY_MESSAGES.put(to, new LinkedList<Message>());
+				}
+				DELAY_MESSAGES.get(to).add(message);
+			}
 		}
 	}
 
@@ -36,6 +43,16 @@ public enum IdentityContext {
 			old.context().close();
 		}
 		CHANNEL_ID_TO_ID.put(identity.context().channel().id(), identity.id());
+		synchronized (this){
+			if(DELAY_MESSAGES.containsKey(identity.id()) && DELAY_MESSAGES.get(identity.id()).size() > 0){
+				LinkedList<Message> messages = DELAY_MESSAGES.get(identity.id());
+				Iterator<Message> it = messages.iterator();
+				while (it.hasNext()){
+					identity.write(it.next());
+					it.remove();
+				}
+			}
+		}
 	}
 
 	public void remove(Integer id) {
