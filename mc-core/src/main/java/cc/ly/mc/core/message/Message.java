@@ -1,157 +1,123 @@
 package cc.ly.mc.core.message;
 
 import cc.ly.mc.core.attribute.Attribute;
-import cc.ly.mc.core.data.Data;
-import cc.ly.mc.core.data.impl.FlagData;
-import cc.ly.mc.core.data.impl.Unsigned16;
 import cc.ly.mc.core.io.Binary;
-import cc.ly.mc.core.util.Timeout;
-import io.netty.channel.ChannelHandlerContext;
 
-import java.io.Externalizable;
 import java.util.Map;
-
-import cc.ly.mc.core.data.impl.Integer64;
-import cc.ly.mc.core.data.impl.Unsigned32;
-import cc.ly.mc.core.data.impl.Unsigned8;
 
 /**
  * 消息基本接口
- * 
+ *
  * @author ly
- * 
  */
-public interface Message extends Binary, Externalizable, Handler, Timeout {
-	/**
-	 * @return 消息版本号
-	 */
-	Unsigned8 version();
+public interface Message extends Binary {
 
-	/**
-	 * @return 消息长度 32位无符号
-	 */
-	Unsigned32 length();
+    /**
+     * @return 消息版本号
+     */
+    byte version();
 
-	/**
-	 * @param length
-	 *            消息长度 24位无符号
-	 */
-	void length(Unsigned32 length);
+    /**
+     * 设置消息版本号
+     *
+     * @param version 消息版本号
+     */
+    void version(byte version);
 
-	/**
-	 * @return 消息状态
-	 */
-	FlagData flag();
+    /**
+     * @return 消息长度 无符号24位 java int表示，单位字节
+     */
+    int length();
 
-	/**
-	 * @param flag
-	 *            消息状态
-	 */
-	void flag(FlagData flag);
+    /**
+     * @param length 消息长度 无符号24位 java int表示，单位字节，包含所有
+     */
+    void length(int length);
 
-	/**
-	 * @return 消息编码
-	 */
-	Unsigned16 code();
+    /**
+     * @return 消息状态
+     * @see MessageFlag
+     */
+    MessageFlag flag();
 
-	/**
-	 * @param code
-	 *            消息编码
-	 */
-	void code(Unsigned16 code);
+    /**
+     * @param flag 消息状态
+     * @see MessageFlag
+     */
+    void flag(MessageFlag flag);
 
-	/**
-	 * @return HopByHop标识
-	 */
-	Integer64 hopByHop();
+    /**
+     * @return 消息编码 无符号24位 java int表示
+     */
+    int code();
 
-	/**
-	 * 
-	 * @param hopByHop 标识
-	 */
-	void hopByHop(Integer64 hopByHop);
+    /**
+     * @param code 消息编码 无符号24位 java int表示
+     */
+    void code(int code);
 
-	/**
-	 * @return EndToEnd标识
-	 */
-	Integer64 endToEnd();
+    /**
+     * @return HopByHop标识 32位数字 java int表示
+     */
+    int hopByHop();
 
-	/**
-	 * @param endToEnd 标识
-	 */
-	void endToEnd(Integer64 endToEnd);
+    /**
+     * @param hopByHop 标识 64位数字 java long表示
+     */
+    void hopByHop(int hopByHop);
 
-	/**
-	 * @param context
-	 *            Netty context
-	 */
-	void context(ChannelHandlerContext context);
+    /**
+     * @return EndToEnd标识
+     */
+    int endToEnd();
 
-	/**
-	 * @return ctx Netty context
-	 */
-	ChannelHandlerContext context();
+    /**
+     * @param endToEnd 标识
+     */
+    void endToEnd(int endToEnd);
 
-	/**
-	 * @param key 属性code
-	 * @return
-	 */
-	Attribute<? extends Data<?>> attribute(Unsigned16 key);
+    /**
+     * @param code 属性code
+     * @return 返回消息中对应属性的attribute
+     */
+    Attribute<?> attribute(int code);
 
-	/**
-	 *
-	 * @param keys 属性code
-	 * @return
-	 */
-	boolean hasAttribute(Unsigned16... keys);
+    /**
+     * @param codes 需要检查的属性code
+     * @return 如果消息中包含对应的属性返回true，否则false
+     */
+    boolean hasAttribute(int... codes);
 
-	/**
-	 * @return all attributes
-	 */
-	Map<Unsigned16, Attribute<? extends Data<?>>> attributes();
+    /**
+     * @return 返回所有的attribute
+     */
+    Map<Integer, Attribute<?>> attributes();
 
-	/**
-	 * @param attribute
-	 *            属性值
-	 */
-	void addAttribute(Attribute<? extends Data<?>> attribute);
+    /**
+     * @param attribute 属性值
+     */
+    void addAttribute(Attribute<?> attribute);
 
-	/**
-	 * @param attribute
-	 *            属性值
-	 */
-	void addAttributeWithoutLengthIncreasing(
-			Attribute<? extends Data<?>> attribute);
-	
-	/**
-	 * 设置相关的属性
-	 * @param key
-	 * @param value
-	 */
-	void object(Object key,Object value);
-	
-	/**
-	 * 返回设置的属性
-	 * @param key
-	 * @return 对应的值
-	 */
-	Object object(Object key);
+    /**
+     * 附加相关的属性
+     *
+     * @param key
+     * @param value
+     */
+    void attach(Object key, Object value);
 
-	/**
-	 *
-	 * @param arriveAtEndPoint 是否到达终点
-	 */
-	void arriveAtEndPoint(boolean arriveAtEndPoint);
+    /**
+     * 返回附加的属性
+     *
+     * @param key
+     * @return 对应的值
+     */
+    Object attach(Object key);
 
-	/**
-	 * 是否到达终点
-	 * @return
-	 */
-	boolean arriveAtEndPoint();
-
-	/**
-	 * 消息格式是否合法
-	 * @return
-	 */
-	boolean valid();
+    /**
+     * 消息格式是否合法
+     *
+     * @return 如果消息格式合法返回true，否则false
+     */
+    boolean valid();
 }

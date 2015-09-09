@@ -1,45 +1,60 @@
 package cc.ly.mc.core.attribute;
 
-import cc.ly.mc.core.data.Data;
-import cc.ly.mc.core.data.impl.Unsigned16;
 import cc.ly.mc.core.io.Binary;
-import cc.ly.mc.core.data.impl.Unsigned32;
 
 /**
- * 熟悉基础接口
- * 
+ * 消息的属性的基础接口
+ *
  * @author ly
- * 
- * @param <T>
- *            具体Data类型
  */
-public interface Attribute<T extends Data<?>> extends Binary {
+public interface Attribute<T> extends Binary {
 
-	/**
-	 * @return 属性编码
-	 */
-	Unsigned16 code();
-	
-	/**
-	 * 设置属性编码
-	 * @para 属性编码
-	 */
-	void code(Unsigned16 code);
+    /**
+     * @return 属性编码 无符号2个字节，java int表示
+     */
+    int code();
 
-	/**
-	 * @return 属性长度
-	 */
-	Unsigned32 length();
+    /**
+     * 设置属性编码
+     *
+     * @para 属性编码
+     */
+    void code(int code);
 
-	/**
-	 * @return 具体数据
-	 */
-	T data();
+    /**
+     * @return 属性的flag
+     * @see AttributeFlag
+     */
+    AttributeFlag flag();
 
-	/**
-	 * @param data
-	 *            具体数据
-	 */
-	void data(T data);
+    /**
+     * 设置属性flag
+     *
+     * @param flag 属性flag
+     * @see AttributeFlag
+     */
+    void flag(AttributeFlag flag);
+
+    /**
+     * @return 属性长度 无符号3字节，java int表示，最大支持数据长度16M
+     */
+    int length();
+
+    /**
+     * 设置属性长度，包含所有
+     *
+     * @param length 属性长度
+     */
+    void length(int length);
+
+    /**
+     * @return 具体数据
+     */
+    T data();
+
+    /**
+     * @param data 具体数据
+     */
+    void data(T data);
 
 }
