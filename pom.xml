@@ -9,9 +9,5 @@
     <packaging>pom</packaging>
     <modules>
         <module>mc-core</module>
-        <module>mc-core-server</module>
-        <module>mc-core-client</module>
-        <module>mc-demo-server</module>
-        <module>mc-demo-client</module>
     </modules>
 </project>
