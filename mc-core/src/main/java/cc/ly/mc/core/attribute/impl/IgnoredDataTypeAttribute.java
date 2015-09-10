@@ -15,6 +15,9 @@ public class IgnoredDataTypeAttribute extends DefaultAttribute<byte[]> {
      */
     @Override
     public byte[] dataFromBinary(byte[] payload) {
+        if (payload == null) {
+            throw new IllegalArgumentException("IgnoredDataTypeAttribute dataFromBinary payload must not be null");
+        }
         byte[] bytes = new byte[payload.length];
         System.arraycopy(payload, 0, bytes, 0, payload.length);
         return bytes;
@@ -28,6 +31,9 @@ public class IgnoredDataTypeAttribute extends DefaultAttribute<byte[]> {
      */
     @Override
     public byte[] dataToBinary(byte[] payload) {
+        if (payload == null) {
+            throw new IllegalArgumentException("IgnoredDataTypeAttribute dataToBinary payload must not be null");
+        }
         byte[] bytes = new byte[payload.length];
         System.arraycopy(payload, 0, bytes, 0, payload.length);
         return bytes;

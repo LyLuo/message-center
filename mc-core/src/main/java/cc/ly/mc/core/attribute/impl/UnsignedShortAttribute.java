@@ -18,6 +18,9 @@ public class UnsignedShortAttribute extends DefaultAttribute<Integer> {
 
     @Override
     public byte[] dataToBinary(Integer i) {
+        if (i == null) {
+            throw new IllegalArgumentException("UnsignedShortAttribute dataToBinary i must not be null");
+        }
         return NumberUtils.unsignedShortToBytes2(i);
     }
 }

@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * 消息标志位表示类
- * <p/>
+ * <p>
  * Created by ly on 9/8/15.
  */
 public enum MessageFlag {
@@ -32,7 +32,7 @@ public enum MessageFlag {
     }
 
     public static MessageFlag fromBinary(byte payload) {
-        if(MESSAGE_FLAGS.containsKey(payload)){
+        if (MESSAGE_FLAGS.containsKey(payload)) {
             return MESSAGE_FLAGS.get(payload);
         }
         throw new IllegalArgumentException("Payload " + payload + " not found in MessageFlag");

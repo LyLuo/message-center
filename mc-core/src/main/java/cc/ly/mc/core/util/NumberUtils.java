@@ -1,9 +1,23 @@
 package cc.ly.mc.core.util;
 
+import java.math.BigInteger;
+
 public class NumberUtils {
 
     public static byte[] unsignedLongToBytes8(String value) {
-        return value.getBytes();
+        byte[] bytes = new BigInteger(value).toByteArray();
+        if (bytes.length == 8) {
+            return bytes;
+        } else if (bytes.length < 8) {
+            int p = 8 - bytes.length;
+            byte[] payload = new byte[8];
+            System.arraycopy(bytes, 0, payload, p, bytes.length);
+            return payload;
+        } else {
+            byte[] payload = new byte[8];
+            System.arraycopy(bytes, bytes.length - 8, payload, 0, 8);
+            return payload;
+        }
     }
 
     public static byte[] longToBytes8(long value) {
@@ -86,8 +100,14 @@ public class NumberUtils {
         return fromBytes(bytes, 8);
     }
 
+    /**
+     * BigInteger是带符号数字
+     *
+     * @param bytes
+     * @return
+     */
     public static String bytes8ToUnsignedLong(byte[] bytes) {
-        return new String(bytes);
+        return new BigInteger(1, bytes).toString();
     }
 
 }

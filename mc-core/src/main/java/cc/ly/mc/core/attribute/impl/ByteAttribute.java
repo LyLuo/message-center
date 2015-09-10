@@ -28,6 +28,9 @@ public class ByteAttribute extends DefaultAttribute<Byte> {
      */
     @Override
     public byte[] dataToBinary(Byte b) {
+        if (b == null) {
+            throw new IllegalArgumentException("ByteAttribute dataToBinary b must not be null");
+        }
         return new byte[]{b.byteValue()};
     }
 }

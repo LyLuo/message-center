@@ -18,6 +18,9 @@ public class LongAttribute extends DefaultAttribute<Long> {
 
     @Override
     public byte[] dataToBinary(Long l) {
+        if (l == null) {
+            throw new IllegalArgumentException("LongAttribute dataToBinary l must not be null");
+        }
         return NumberUtils.longToBytes8(l);
     }
 }

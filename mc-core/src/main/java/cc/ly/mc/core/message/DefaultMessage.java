@@ -2,6 +2,7 @@ package cc.ly.mc.core.message;
 
 import cc.ly.mc.core.attribute.Attribute;
 import cc.ly.mc.core.attribute.AttributeFlag;
+import cc.ly.mc.core.event.EventBus;
 import cc.ly.mc.core.util.NumberUtils;
 
 import java.nio.ByteBuffer;
@@ -163,7 +164,7 @@ public class DefaultMessage implements Message {
         //parse endToEnd
         endToEnd(buffer.getInt());
         //parse attributes
-        while(buffer.hasRemaining()) {
+        while (buffer.hasRemaining()) {
             parseAttributes(buffer);
         }
     }
@@ -200,5 +201,13 @@ public class DefaultMessage implements Message {
         attributes().forEach((integer, attribute) -> buffer.put(attribute.toBinary()));
         buffer.flip();
         return buffer.array();
+    }
+
+    /**
+     * notify以当前对象类名注册名的观察者，并将自身作为event source传入
+     */
+    @Override
+    public void onReceived() {
+        EventBus.getInstance().notify(this.getClass().getSimpleName(), this);
     }
 }

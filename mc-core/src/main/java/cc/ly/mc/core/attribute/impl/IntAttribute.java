@@ -18,6 +18,9 @@ public class IntAttribute extends DefaultAttribute<Integer> {
 
     @Override
     public byte[] dataToBinary(Integer i) {
+        if (i == null) {
+            throw new IllegalArgumentException("IntAttribute dataToBinary i must not be null");
+        }
         return NumberUtils.intToBytes4(i);
     }
 }

@@ -24,12 +24,15 @@ public class BooleanAttribute extends DefaultAttribute<Boolean> {
     /**
      * BooleanAttribute的data转二进制数据
      *
-     * @param bool
+     * @param b
      * @return bool为false返回0，否则1
      */
     @Override
-    public byte[] dataToBinary(Boolean bool) {
-        if (bool.booleanValue()) {
+    public byte[] dataToBinary(Boolean b) {
+        if (b == null) {
+            throw new IllegalArgumentException("BooleanAttribute dataToBinary b must not be null");
+        }
+        if (b.booleanValue()) {
             return new byte[]{1};
         }
         return new byte[]{0};

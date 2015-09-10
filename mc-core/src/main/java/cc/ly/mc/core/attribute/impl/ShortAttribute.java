@@ -18,6 +18,9 @@ public class ShortAttribute extends DefaultAttribute<Short> {
 
     @Override
     public byte[] dataToBinary(Short s) {
+        if (s == null) {
+            throw new IllegalArgumentException("ShortAttribute dataToBinary s must not be null");
+        }
         return NumberUtils.shortToBytes2(s);
     }
 }

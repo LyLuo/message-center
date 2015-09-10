@@ -2,6 +2,7 @@ package cc.ly.mc.core.message;
 
 import cc.ly.mc.core.attribute.Attribute;
 import cc.ly.mc.core.io.Binary;
+import cc.ly.mc.core.io.Handler;
 
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import java.util.Map;
  *
  * @author ly
  */
-public interface Message extends Binary {
+public interface Message extends Binary, Handler {
 
     /**
      * @return 消息版本号

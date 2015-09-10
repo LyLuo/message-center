@@ -59,6 +59,7 @@ public abstract class DefaultAttribute<T> implements Attribute<T> {
 
     /**
      * Attribute = code(2) + flag(1) + length(3) + data
+     *
      * @param payload 二进制数据(包含所有)
      */
     @Override

@@ -18,6 +18,9 @@ public class UnsignedLongAttribute extends DefaultAttribute<String> {
 
     @Override
     public byte[] dataToBinary(String s) {
+        if (s == null) {
+            throw new IllegalArgumentException("UnsignedLongAttribute dataToBinary s must not be null");
+        }
         return NumberUtils.unsignedLongToBytes8(s);
     }
 }

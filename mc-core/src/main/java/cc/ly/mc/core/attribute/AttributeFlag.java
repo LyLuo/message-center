@@ -7,11 +7,11 @@ import java.util.Map;
 
 /**
  * 消息标志位表示类，用于确定数据类型
- * <p/>
+ * <p>
  * Created by ly on 9/8/15.
  */
 public enum AttributeFlag {
-    IGNORED(null, IgnoredDataTypeAttribute.class), BOOLEAN((byte)0b00000001, BooleanAttribute.class),
+    IGNORED(null, IgnoredDataTypeAttribute.class), BOOLEAN((byte) 0b00000001, BooleanAttribute.class),
     UNSIGNED_BYTE((byte) 0b00000010, UnsignedByteAttribute.class), BYTE((byte) 0b00000011, ByteAttribute.class),
     UNSIGNED_SHORT((byte) 0b00000100, UnsignedShortAttribute.class), SHORT((byte) 0b00000101, ShortAttribute.class),
     UNSIGNED_INT((byte) 0b00000110, UnsignedIntAttribute.class), INT((byte) 0b00000111, IntAttribute.class),
