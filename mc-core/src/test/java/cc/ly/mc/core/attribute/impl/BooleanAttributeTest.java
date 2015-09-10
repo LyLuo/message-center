@@ -25,10 +25,8 @@ public class BooleanAttributeTest {
     @Test
     public void encode() {
         BooleanAttribute attribute = new BooleanAttribute();
-        byte[] payload = attribute.dataToBinary(true);
-        Assert.assertArrayEquals(new byte[]{1}, payload);
-        payload = attribute.dataToBinary(false);
-        Assert.assertArrayEquals(new byte[]{0}, payload);
+        Assert.assertArrayEquals(new byte[]{1}, attribute.dataToBinary(true));
+        Assert.assertArrayEquals(new byte[]{0}, attribute.dataToBinary(false));
         RuntimeException re = null;
         try {
             attribute.dataToBinary(null);

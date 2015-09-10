@@ -2,6 +2,7 @@ package cc.ly.mc.core.message;
 
 import cc.ly.mc.core.attribute.Attribute;
 import cc.ly.mc.core.attribute.AttributeFlag;
+import cc.ly.mc.core.attribute.DefaultAttribute;
 import cc.ly.mc.core.event.EventBus;
 import cc.ly.mc.core.util.NumberUtils;
 
@@ -164,30 +165,12 @@ public class DefaultMessage implements Message {
         //parse endToEnd
         endToEnd(buffer.getInt());
         //parse attributes
-        while (buffer.hasRemaining()) {
-            parseAttributes(buffer);
-        }
+        DefaultAttribute.parse(buffer.array()).forEach(attribute -> {
+            addAttribute(attribute);
+        });
     }
 
-    /**
-     * Attribute = code(2) + flag(1) + length(3) + data
-     *
-     * @param buffer attributes
-     */
-    private void parseAttributes(ByteBuffer buffer) {
-        buffer.mark();
-        buffer.position(buffer.position() + 2);
-        AttributeFlag flag = AttributeFlag.fromBinary(buffer.get());
-        Attribute<?> attribute;
-        try {
-            attribute = flag.attributeClass().newInstance();
-        } catch (IllegalAccessException | InstantiationException e) {
-            throw new IllegalArgumentException("failed to parse attributes", e);
-        }
-        buffer.reset();
-        attribute.fromBinary(buffer.array());
-        addAttribute(attribute);
-    }
+
 
     @Override
     public byte[] toBinary() {

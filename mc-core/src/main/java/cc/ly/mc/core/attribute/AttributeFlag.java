@@ -16,7 +16,8 @@ public enum AttributeFlag {
     UNSIGNED_SHORT((byte) 0b00000100, UnsignedShortAttribute.class), SHORT((byte) 0b00000101, ShortAttribute.class),
     UNSIGNED_INT((byte) 0b00000110, UnsignedIntAttribute.class), INT((byte) 0b00000111, IntAttribute.class),
     UNSIGNED_LONG((byte) 0b00001000, UnsignedLongAttribute.class), LONG((byte) 0b00001001, LongAttribute.class),
-    FLOAT((byte) 0b00001010, FloatAttribute.class), DOUBLE((byte) 0b00001011, DoubleAttribute.class), GROUPED((byte) 0b00000000, null);
+    FLOAT((byte) 0b00001010, FloatAttribute.class), DOUBLE((byte) 0b00001011, DoubleAttribute.class),
+    STRING((byte) 0b00001100, StringAttribute.class), GROUPED((byte) 0b00000000, null);
 
     private Byte value;
     private Class<? extends Attribute<?>> attributeClass;

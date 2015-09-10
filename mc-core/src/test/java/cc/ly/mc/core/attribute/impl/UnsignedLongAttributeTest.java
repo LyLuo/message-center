@@ -26,12 +26,9 @@ public class UnsignedLongAttributeTest {
     @Test
     public void encode() {
         UnsignedLongAttribute attribute = new UnsignedLongAttribute();
-        byte[] payload = attribute.dataToBinary("0");
-        Assert.assertArrayEquals(new byte[]{0, 0, 0, 0, 0, 0, 0, 0}, payload);
-        payload = attribute.dataToBinary("18446744073709551615");
-        Assert.assertArrayEquals(new byte[]{(byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff}, payload);
-        payload = attribute.dataToBinary("4294967295");
-        Assert.assertArrayEquals(new byte[]{0, 0, 0, 0, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff}, payload);
+        Assert.assertArrayEquals(new byte[]{0, 0, 0, 0, 0, 0, 0, 0}, attribute.dataToBinary("0"));
+        Assert.assertArrayEquals(new byte[]{(byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff}, attribute.dataToBinary("18446744073709551615"));
+        Assert.assertArrayEquals(new byte[]{0, 0, 0, 0, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff}, attribute.dataToBinary("4294967295"));
         RuntimeException re = null;
         try {
             attribute.dataToBinary(null);

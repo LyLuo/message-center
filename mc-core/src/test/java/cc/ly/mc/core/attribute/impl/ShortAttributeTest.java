@@ -26,12 +26,9 @@ public class ShortAttributeTest {
     @Test
     public void encode() {
         ShortAttribute attribute = new ShortAttribute();
-        byte[] payload = attribute.dataToBinary(Short.valueOf("0"));
-        Assert.assertArrayEquals(new byte[]{0, 0}, payload);
-        payload = attribute.dataToBinary(Short.valueOf(Short.MAX_VALUE));
-        Assert.assertArrayEquals(new byte[]{0x7f, (byte) 0xff}, payload);
-        payload = attribute.dataToBinary(Short.valueOf(Short.MIN_VALUE));
-        Assert.assertArrayEquals(new byte[]{(byte) 0x80, (byte) 0x00}, payload);
+        Assert.assertArrayEquals(new byte[]{0, 0}, attribute.dataToBinary(Short.valueOf("0")));
+        Assert.assertArrayEquals(new byte[]{0x7f, (byte) 0xff}, attribute.dataToBinary(Short.valueOf(Short.MAX_VALUE)));
+        Assert.assertArrayEquals(new byte[]{(byte) 0x80, (byte) 0x00}, attribute.dataToBinary(Short.valueOf(Short.MIN_VALUE)));
         RuntimeException re = null;
         try {
             attribute.dataToBinary(null);

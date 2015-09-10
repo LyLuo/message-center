@@ -26,12 +26,9 @@ public class ByteAttributeTest {
     @Test
     public void encode() {
         ByteAttribute attribute = new ByteAttribute();
-        byte[] payload = attribute.dataToBinary(Byte.valueOf("0"));
-        Assert.assertArrayEquals(new byte[]{0}, payload);
-        payload = attribute.dataToBinary(Byte.valueOf("127"));
-        Assert.assertArrayEquals(new byte[]{127}, payload);
-        payload = attribute.dataToBinary(Byte.valueOf("-128"));
-        Assert.assertArrayEquals(new byte[]{-128}, payload);
+        Assert.assertArrayEquals(new byte[]{0}, attribute.dataToBinary(Byte.valueOf("0")));
+        Assert.assertArrayEquals(new byte[]{127}, attribute.dataToBinary(Byte.valueOf("127")));
+        Assert.assertArrayEquals(new byte[]{-128}, attribute.dataToBinary(Byte.valueOf("-128")));
         RuntimeException re = null;
         try {
             attribute.dataToBinary(null);

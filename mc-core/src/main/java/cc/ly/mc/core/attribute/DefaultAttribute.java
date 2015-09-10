@@ -3,6 +3,8 @@ package cc.ly.mc.core.attribute;
 import cc.ly.mc.core.util.NumberUtils;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ly on 9/8/15.
@@ -104,5 +106,31 @@ public abstract class DefaultAttribute<T> implements Attribute<T> {
     }
 
     public abstract byte[] dataToBinary(T t);
+
+    /**
+     * 将payload解析为Attributes
+     * Attribute = code(2) + flag(1) + length(3) + data
+     * @param payload
+     * @return List Attribute
+     */
+    public static List<Attribute<?>> parse(byte[] payload){
+        List<Attribute<?>> attributes = new ArrayList<>();
+        ByteBuffer buffer = ByteBuffer.wrap(payload);
+        while (buffer.hasRemaining()) {
+            buffer.mark();
+            buffer.position(buffer.position() + 2);
+            AttributeFlag flag = AttributeFlag.fromBinary(buffer.get());
+            Attribute<?> attribute;
+            try {
+                attribute = flag.attributeClass().newInstance();
+            } catch (IllegalAccessException | InstantiationException e) {
+                throw new IllegalArgumentException("failed to parse attributes", e);
+            }
+            buffer.reset();
+            attribute.fromBinary(buffer.array());
+            attributes.add(attribute);
+        }
+        return attributes;
+    }
 }
 

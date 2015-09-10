@@ -26,12 +26,9 @@ public class LongAttributeTest {
     @Test
     public void encode() {
         LongAttribute attribute = new LongAttribute();
-        byte[] payload = attribute.dataToBinary(Long.valueOf("0"));
-        Assert.assertArrayEquals(new byte[]{0, 0, 0, 0, 0, 0, 0, 0}, payload);
-        payload = attribute.dataToBinary(Long.valueOf(Long.MAX_VALUE));
-        Assert.assertArrayEquals(new byte[]{0x7f, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff}, payload);
-        payload = attribute.dataToBinary(Long.valueOf(Long.MIN_VALUE));
-        Assert.assertArrayEquals(new byte[]{(byte) 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}, payload);
+        Assert.assertArrayEquals(new byte[]{0, 0, 0, 0, 0, 0, 0, 0}, attribute.dataToBinary(Long.valueOf("0")));
+        Assert.assertArrayEquals(new byte[]{0x7f, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff}, attribute.dataToBinary(Long.valueOf(Long.MAX_VALUE)));
+        Assert.assertArrayEquals(new byte[]{(byte) 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}, attribute.dataToBinary(Long.valueOf(Long.MIN_VALUE)));
         RuntimeException re = null;
         try {
             attribute.dataToBinary(null);

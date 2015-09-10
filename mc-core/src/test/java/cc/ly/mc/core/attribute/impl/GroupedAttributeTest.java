@@ -6,13 +6,11 @@ import org.junit.Test;
 /**
  * Created by ly on 9/10/15.
  */
-public class UnsignedIntAttributeTest {
+public class GroupedAttributeTest {
 
     @Test
     public void decode() {
-        UnsignedIntAttribute attribute = new UnsignedIntAttribute();
-        Assert.assertEquals(Long.valueOf(0), attribute.dataFromBinary(new byte[]{0, 0, 0, 0}));
-        Assert.assertEquals(Long.valueOf(0xFFFFFFFFL), attribute.dataFromBinary(new byte[]{(byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff}));
+        GroupedAttribute attribute = new GroupedAttribute();
         RuntimeException re = null;
         try {
             attribute.dataFromBinary(new byte[0]);
@@ -24,9 +22,7 @@ public class UnsignedIntAttributeTest {
 
     @Test
     public void encode() {
-        UnsignedIntAttribute attribute = new UnsignedIntAttribute();
-        Assert.assertArrayEquals(new byte[]{0, 0, 0, 0}, attribute.dataToBinary(0L));
-        Assert.assertArrayEquals(new byte[]{(byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff}, attribute.dataToBinary(0xFFFFFFFFL));
+        GroupedAttribute attribute = new GroupedAttribute();
         RuntimeException re = null;
         try {
             attribute.dataToBinary(null);

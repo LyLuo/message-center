@@ -25,10 +25,8 @@ public class UnsignedShortAttributeTest {
     @Test
     public void encode() {
         UnsignedShortAttribute attribute = new UnsignedShortAttribute();
-        byte[] payload = attribute.dataToBinary(0);
-        Assert.assertArrayEquals(new byte[]{0, 0}, payload);
-        payload = attribute.dataToBinary(0xFFFF);
-        Assert.assertArrayEquals(new byte[]{(byte) 0xff, (byte) 0xff}, payload);
+        Assert.assertArrayEquals(new byte[]{0, 0}, attribute.dataToBinary(0));
+        Assert.assertArrayEquals(new byte[]{(byte) 0xff, (byte) 0xff}, attribute.dataToBinary(0xFFFF));
         RuntimeException re = null;
         try {
             attribute.dataToBinary(null);

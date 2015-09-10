@@ -26,12 +26,9 @@ public class IntAttributeTest {
     @Test
     public void encode() {
         IntAttribute attribute = new IntAttribute();
-        byte[] payload = attribute.dataToBinary(Integer.valueOf("0"));
-        Assert.assertArrayEquals(new byte[]{0, 0, 0, 0}, payload);
-        payload = attribute.dataToBinary(Integer.valueOf(Integer.MAX_VALUE));
-        Assert.assertArrayEquals(new byte[]{0x7f, (byte) 0xff, (byte) 0xff, (byte) 0xff}, payload);
-        payload = attribute.dataToBinary(Integer.valueOf(Integer.MIN_VALUE));
-        Assert.assertArrayEquals(new byte[]{(byte) 0x80, 0x00, 0x00, 0x00}, payload);
+        Assert.assertArrayEquals(new byte[]{0, 0, 0, 0}, attribute.dataToBinary(Integer.valueOf("0")));
+        Assert.assertArrayEquals(new byte[]{0x7f, (byte) 0xff, (byte) 0xff, (byte) 0xff}, attribute.dataToBinary(Integer.valueOf(Integer.MAX_VALUE)));
+        Assert.assertArrayEquals(new byte[]{(byte) 0x80, 0x00, 0x00, 0x00}, attribute.dataToBinary(Integer.valueOf(Integer.MIN_VALUE)));
         RuntimeException re = null;
         try {
             attribute.dataToBinary(null);
