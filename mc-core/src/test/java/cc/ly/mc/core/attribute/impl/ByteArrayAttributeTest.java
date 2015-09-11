@@ -6,18 +6,18 @@ import org.junit.Test;
 /**
  * Created by ly on 9/10/15.
  */
-public class IgnoredDataTypeAttributeTest {
+public class ByteArrayAttributeTest {
 
     @Test
     public void decode() {
-        IgnoredDataTypeAttribute attribute = new IgnoredDataTypeAttribute();
+        ByteArrayAttribute attribute = new ByteArrayAttribute();
         Assert.assertArrayEquals(new byte[]{0}, attribute.dataFromBinary(new byte[]{0}));
         Assert.assertArrayEquals(new byte[]{0,0,0,0}, attribute.dataFromBinary(new byte[]{0,0,0,0}));
     }
 
     @Test
     public void encode() {
-        IgnoredDataTypeAttribute attribute = new IgnoredDataTypeAttribute();
+        ByteArrayAttribute attribute = new ByteArrayAttribute();
         Assert.assertArrayEquals(new byte[]{0}, attribute.dataToBinary(new byte[]{0}));
         Assert.assertArrayEquals(new byte[]{0,0,0,0}, attribute.dataToBinary(new byte[]{0,0,0,0}));
     }

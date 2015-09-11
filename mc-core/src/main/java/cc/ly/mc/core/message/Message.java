@@ -31,11 +31,6 @@ public interface Message extends Binary, Handler {
     int length();
 
     /**
-     * @param length 消息长度 无符号24位 java int表示，单位字节，包含所有
-     */
-    void length(int length);
-
-    /**
      * @return 消息状态
      * @see MessageFlag
      */
@@ -102,15 +97,15 @@ public interface Message extends Binary, Handler {
     /**
      * 附加相关的属性
      *
-     * @param key
-     * @param value
+     * @param key key
+     * @param value key对应值
      */
     void attach(Object key, Object value);
 
     /**
      * 返回附加的属性
      *
-     * @param key
+     * @param key key
      * @return 对应的值
      */
     Object attach(Object key);

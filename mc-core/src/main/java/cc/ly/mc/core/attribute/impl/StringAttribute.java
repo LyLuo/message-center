@@ -1,5 +1,6 @@
 package cc.ly.mc.core.attribute.impl;
 
+import cc.ly.mc.core.attribute.AttributeFlag;
 import cc.ly.mc.core.attribute.DefaultAttribute;
 
 import java.nio.charset.Charset;
@@ -10,6 +11,15 @@ import java.nio.charset.Charset;
 public class StringAttribute extends DefaultAttribute<String> {
 
     private static final Charset UTF_8 = Charset.forName("UTF-8");
+
+    public StringAttribute(){
+        this.flag = AttributeFlag.STRING;
+    }
+
+    @Override
+    public boolean isFixedLength(){
+        return false;
+    }
 
     /**
      * 二进制数据转StringAttribute的data

@@ -17,7 +17,7 @@ public interface Attribute<T> extends Binary {
     /**
      * 设置属性编码
      *
-     * @para 属性编码
+     * @para code 属性编码
      */
     void code(int code);
 
@@ -26,14 +26,6 @@ public interface Attribute<T> extends Binary {
      * @see AttributeFlag
      */
     AttributeFlag flag();
-
-    /**
-     * 设置属性flag
-     *
-     * @param flag 属性flag
-     * @see AttributeFlag
-     */
-    void flag(AttributeFlag flag);
 
     /**
      * @return 属性长度 无符号3字节，java int表示，最大支持数据长度16M
@@ -48,6 +40,13 @@ public interface Attribute<T> extends Binary {
     void length(int length);
 
     /**
+     * 是否长度固定
+     *
+     * @return 如果长度固定返回true，否则false
+     */
+    boolean isFixedLength();
+
+    /**
      * @return 具体数据
      */
     T data();
@@ -57,4 +56,21 @@ public interface Attribute<T> extends Binary {
      */
     void data(T data);
 
+    /**
+     * 消息是否合法
+     *
+     * @return 消息合法返回true，否则false
+     */
+    default boolean valid() {
+        if (code() == 0 || flag() == null || data() == null) {
+            return false;
+        }
+        if (isFixedLength() && length() <= Attributes.CODE_FLAG_FIELDS_LENGTH) {
+            return false;
+        }
+        if (!isFixedLength() && length() <= Attributes.CODE_FLAG_LENGTH_FIELDS_LENGTH) {
+            return false;
+        }
+        return true;
+    }
 }

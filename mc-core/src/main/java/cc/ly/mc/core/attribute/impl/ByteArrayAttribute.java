@@ -1,11 +1,21 @@
 package cc.ly.mc.core.attribute.impl;
 
+import cc.ly.mc.core.attribute.AttributeFlag;
 import cc.ly.mc.core.attribute.DefaultAttribute;
 
 /**
  * Created by ly on 9/9/15.
  */
-public class IgnoredDataTypeAttribute extends DefaultAttribute<byte[]> {
+public class ByteArrayAttribute extends DefaultAttribute<byte[]> {
+
+    public ByteArrayAttribute(){
+        this.flag = AttributeFlag.BYTE_ARRAY;
+    }
+
+    @Override
+    public boolean isFixedLength(){
+        return false;
+    }
 
     /**
      * 二进制数据转IgnoredDataTypeAttribute的data

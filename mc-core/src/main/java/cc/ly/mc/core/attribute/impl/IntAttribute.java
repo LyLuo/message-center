@@ -1,5 +1,6 @@
 package cc.ly.mc.core.attribute.impl;
 
+import cc.ly.mc.core.attribute.AttributeFlag;
 import cc.ly.mc.core.attribute.DefaultAttribute;
 import cc.ly.mc.core.util.NumberUtils;
 
@@ -8,10 +9,15 @@ import cc.ly.mc.core.util.NumberUtils;
  */
 public class IntAttribute extends DefaultAttribute<Integer> {
 
+    public IntAttribute(){
+        this.length = 7;
+        this.flag = AttributeFlag.INT;
+    }
+
     @Override
     public Integer dataFromBinary(byte[] payload) {
         if (payload.length != 4) {
-            throw new IllegalArgumentException("IntAttribute data length must be 4 , It's " + payload.length);
+            throw new IllegalArgumentException("IntAttribute data length must be 4 , but It's " + payload.length);
         }
         return NumberUtils.bytes4ToInt(payload);
     }

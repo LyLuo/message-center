@@ -1,5 +1,6 @@
 package cc.ly.mc.core.attribute.impl;
 
+import cc.ly.mc.core.attribute.AttributeFlag;
 import cc.ly.mc.core.attribute.DefaultAttribute;
 import cc.ly.mc.core.util.NumberUtils;
 
@@ -7,6 +8,11 @@ import cc.ly.mc.core.util.NumberUtils;
  * Created by ly on 9/9/15.
  */
 public class UnsignedByteAttribute extends DefaultAttribute<Short> {
+
+    public UnsignedByteAttribute(){
+        this.length = 4;
+        this.flag = AttributeFlag.UNSIGNED_BYTE;
+    }
 
     /**
      * 二进制数据转ByteAttribute的data
@@ -17,7 +23,7 @@ public class UnsignedByteAttribute extends DefaultAttribute<Short> {
     @Override
     public Short dataFromBinary(byte[] payload) {
         if (payload.length != 1) {
-            throw new IllegalArgumentException("UnsignedByteAttribute data length must be 1 , It's " + payload.length);
+            throw new IllegalArgumentException("UnsignedByteAttribute data length must be 1 , but It's " + payload.length);
         }
         return NumberUtils.bytes1ToUnsignedByte(payload);
     }

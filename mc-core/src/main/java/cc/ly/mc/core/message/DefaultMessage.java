@@ -1,8 +1,7 @@
 package cc.ly.mc.core.message;
 
 import cc.ly.mc.core.attribute.Attribute;
-import cc.ly.mc.core.attribute.AttributeFlag;
-import cc.ly.mc.core.attribute.DefaultAttribute;
+import cc.ly.mc.core.attribute.Attributes;
 import cc.ly.mc.core.event.EventBus;
 import cc.ly.mc.core.util.NumberUtils;
 
@@ -18,7 +17,7 @@ public class DefaultMessage implements Message {
 
     private byte version;
 
-    private int length;
+    private int length = Messages.MESSAGE_FIELDS_LENGTH;
 
     private MessageFlag flag;
 
@@ -45,11 +44,6 @@ public class DefaultMessage implements Message {
     @Override
     public int length() {
         return length;
-    }
-
-    @Override
-    public void length(int length) {
-        this.length = length;
     }
 
     @Override
@@ -112,7 +106,11 @@ public class DefaultMessage implements Message {
         if (attribute == null) {
             throw new IllegalArgumentException("attribute must not be null");
         }
+        if (! attribute.valid()) {
+            throw new IllegalArgumentException("attribute is invalid");
+        }
         attributes.put(attribute.code(), attribute);
+        length += attribute.length();
     }
 
     @Override
@@ -137,37 +135,41 @@ public class DefaultMessage implements Message {
     }
 
     /**
-     * verison(1) + length(3) + flag(1) + code(3) + hopByHop(4) + hopByHop(4) + attributes
+     * verison(1) + length(3) + flag(1) + code(3) + hopByHop(4) + endToEnd(4) + attributes
      *
      * @param payload 二进制数据
      */
     @Override
     public void fromBinary(byte[] payload) {
+        byte[] lengthPayload = new byte[Messages.LENGTH_FIELD_LENGTH];
+        byte[] codePayload = new byte[Messages.CODE_FIELD_LENGTH];
+        byte[] attributesPayload;
+        int length;
         ByteBuffer buffer = ByteBuffer.wrap(payload);
-        buffer.flip();
         //parse version
         version(buffer.get());
         //parse length
-        byte[] lengthPayload = new byte[3];
         buffer.get(lengthPayload);
-        length(NumberUtils.bytes3ToInt(lengthPayload));
-        if (payload.length != length()) {
-            throw new IllegalArgumentException("message's length " + payload.length + " + not equal length attribute " + length());
+        length = NumberUtils.bytes3ToInt(lengthPayload);
+        if (length <= Messages.MESSAGE_FIELDS_LENGTH){
+            throw new IllegalArgumentException("message's length must bigger than " + Messages.MESSAGE_FIELDS_LENGTH + " but it's " + length);
+        }
+        if (payload.length != length) {
+            throw new IllegalArgumentException("message's length " + payload.length + " not equal length field " + length);
         }
         //parse flag
         flag(MessageFlag.fromBinary(buffer.get()));
         //parse code
-        byte[] codePayload = new byte[3];
         buffer.get(codePayload);
         code(NumberUtils.bytes3ToInt(codePayload));
         //parse hopByHop
         hopByHop(buffer.getInt());
         //parse endToEnd
         endToEnd(buffer.getInt());
+        attributesPayload = new byte[length - Messages.MESSAGE_FIELDS_LENGTH];
+        buffer.get(attributesPayload);
         //parse attributes
-        DefaultAttribute.parse(buffer.array()).forEach(attribute -> {
-            addAttribute(attribute);
-        });
+        Attributes.parse(attributesPayload).forEach(attribute -> addAttribute(attribute));
     }
 
 
