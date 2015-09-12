@@ -1,6 +1,5 @@
 package cc.ly.mc.core.message;
 
-import cc.ly.mc.core.attribute.Attributes;
 import cc.ly.mc.core.attribute.impl.BooleanAttribute;
 import cc.ly.mc.core.attribute.impl.GroupedAttribute;
 import cc.ly.mc.core.attribute.impl.IntAttribute;
@@ -86,5 +85,10 @@ public class MessageTest {
         message.addAttribute(stringAttribute);
         message.addAttribute(groupedAttribute);
         Assert.assertArrayEquals(payload, message.toBinary());
+        Assert.assertEquals(false, message.removeAttribute(1).data());
+        Assert.assertEquals(49, message.length());
+        Assert.assertNull(message.removeAttribute(0));
+        message.attach("name", "defaultMessage");
+        Assert.assertEquals("defaultMessage", message.attach("name"));
     }
 }

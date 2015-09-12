@@ -1,8 +1,8 @@
 package cc.ly.mc.core.attribute.impl;
 
 import cc.ly.mc.core.attribute.AttributeFlag;
-import cc.ly.mc.core.attribute.DefaultAttribute;
 import cc.ly.mc.core.util.NumberUtils;
+import cc.ly.mc.core.attribute.DefaultAttribute;
 
 /**
  * Created by ly on 9/9/15.

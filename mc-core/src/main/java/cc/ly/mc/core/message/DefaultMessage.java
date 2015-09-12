@@ -114,6 +114,16 @@ public class DefaultMessage implements Message {
     }
 
     @Override
+    public Attribute<?> removeAttribute(Integer code) {
+        if(attributes().containsKey(code)){
+            Attribute<?> attribute = attributes().get(code);
+            this.length = length() - attribute.length();
+            return attribute;
+        }
+        return null;
+    }
+
+    @Override
     public void attach(Object key, Object value) {
         if (key == null) {
             throw new IllegalArgumentException("key must not be null");
@@ -154,8 +164,8 @@ public class DefaultMessage implements Message {
         if (length <= Messages.MESSAGE_FIELDS_LENGTH){
             throw new IllegalArgumentException("message's length must bigger than " + Messages.MESSAGE_FIELDS_LENGTH + " but it's " + length);
         }
-        if (payload.length != length) {
-            throw new IllegalArgumentException("message's length " + payload.length + " not equal length field " + length);
+        if (payload.length < length) {
+            throw new IllegalArgumentException("message length " + length + " must less than payload's length " + payload.length);
         }
         //parse flag
         flag(MessageFlag.fromBinary(buffer.get()));

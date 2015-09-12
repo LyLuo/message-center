@@ -95,6 +95,13 @@ public interface Message extends Binary, Handler {
     void addAttribute(Attribute<?> attribute);
 
     /**
+     * 移除code对应的attribute
+     * @param code attribute code
+     * @return 移除的attribute,如果不存在返回null
+     */
+    Attribute<?> removeAttribute(Integer code);
+
+    /**
      * 附加相关的属性
      *
      * @param key key

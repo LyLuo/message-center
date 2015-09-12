@@ -102,6 +102,10 @@ public class GroupedAttributeTest {
         str.code(12);
         str.data("Aa");
         str.length(8);
+        StringAttribute str1 = new StringAttribute();
+        str1.code(13);
+        str1.data("Aa");
+        str1.length(8);
         ByteArrayAttribute array = new ByteArrayAttribute();
         array.code(13);
         array.data(new byte[]{0, 1});
@@ -111,6 +115,8 @@ public class GroupedAttributeTest {
         inner.addAttribute(z);
         inner.addAttribute(i);
         inner.addAttribute(str);
+        inner.addAttribute(str1);
+        inner.removeAttribute(13);
         Map<Integer, Attribute<?>> attributes = new LinkedHashMap<>();
         attributes.put(z.code(), z);
         attributes.put(ub.code(), ub);
