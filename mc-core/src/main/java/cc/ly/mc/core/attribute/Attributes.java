@@ -69,7 +69,7 @@ public class Attributes {
 
     public static int getLength(Collection<Attribute<?>> attributes){
         if(attributes == null){
-            throw new IllegalArgumentException("attributes can not be null");
+            throw new NullPointerException("attributes can not be null");
         }
         return attributes.parallelStream().mapToInt(attribute -> {
             if(!attribute.valid()){

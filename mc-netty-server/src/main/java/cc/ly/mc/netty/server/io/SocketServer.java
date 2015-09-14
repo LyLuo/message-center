@@ -13,8 +13,11 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package cc.ly.mc.netty.server;
+package cc.ly.mc.netty.server.io;
 
+import cc.ly.mc.core.event.EventBus;
+import cc.ly.mc.netty.server.Constant;
+import cc.ly.mc.netty.server.event.*;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -66,6 +69,11 @@ public class SocketServer extends Thread {
     }
 
     public static void main(String[] args) {
+        EventBus.getInstance().register(Constant.CONNECTED, new ConnectedEventObserver());
+        EventBus.getInstance().register(Constant.DISCONNECTED, new DisconnectedEventObserver());
+        EventBus.getInstance().register(Constant.REGISTER, new RegisterMessageObserver());
+        EventBus.getInstance().register(Constant.DEREGISTER, new DeregisterMessageObserver());
+        EventBus.getInstance().register(Constant.TEXT, new TextMessageObserver());
         new SocketServer(9090).start();
     }
 

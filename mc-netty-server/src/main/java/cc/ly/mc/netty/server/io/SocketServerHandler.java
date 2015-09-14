@@ -1,4 +1,4 @@
-package cc.ly.mc.netty.server;
+package cc.ly.mc.netty.server.io;
 
 import cc.ly.mc.core.event.EventBus;
 import cc.ly.mc.core.message.Message;
@@ -20,18 +20,22 @@ public class SocketServerHandler extends SimpleChannelInboundHandler<Message> {
         if (!message.valid()) {
             LOGGER.info("received a invalid message", message);
         }else {
-            message.attach("Context", context);
+            message.attach("ChannelHandlerContext", context);
             message.onReceived();
         }
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        LOGGER.debug("{} connected and notify observers", ctx);
         EventBus.getInstance().notify("Connected", ctx);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        EventBus.getInstance().notify("Disconnect", ctx);
+        LOGGER.debug("{} disconnected and notify observers", ctx);
+        EventBus.getInstance().notify("Disconnected", ctx);
     }
+
+
 }

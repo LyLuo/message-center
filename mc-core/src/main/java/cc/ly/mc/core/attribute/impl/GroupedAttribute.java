@@ -28,7 +28,7 @@ public class GroupedAttribute extends DefaultAttribute<Map<Integer, Attribute<?>
     @Override
     public Map<Integer, Attribute<?>> dataFromBinary(byte[] payload) {
         if (payload == null) {
-            throw new IllegalArgumentException("GroupedAttribute dataFromBinary payload must not be null");
+            throw new NullPointerException("GroupedAttribute dataFromBinary payload must not be null");
         }
         Map<Integer, Attribute<?>> map = new LinkedHashMap<>();
         Attributes.parse(payload).forEach(attribute -> map.put(attribute.code(), attribute));
@@ -38,7 +38,7 @@ public class GroupedAttribute extends DefaultAttribute<Map<Integer, Attribute<?>
     @Override
     public byte[] dataToBinary(Map<Integer, Attribute<?>> attributes) {
         if (attributes == null) {
-            throw new IllegalArgumentException("GroupedAttribute dataToBinary attributes must not be null");
+            throw new NullPointerException("GroupedAttribute dataToBinary attributes must not be null");
         }
         int length = Attributes.getLength(attributes.values());
         ByteBuffer buffer = ByteBuffer.allocate(length);
@@ -48,7 +48,7 @@ public class GroupedAttribute extends DefaultAttribute<Map<Integer, Attribute<?>
 
     public Attribute<?> addAttribute(Attribute<?> attribute) {
         if (attribute == null) {
-            throw new IllegalArgumentException("attribute must not be null");
+            throw new NullPointerException("attribute must not be null");
         }
         if (!attribute.valid()) {
             throw new IllegalArgumentException("attribute is invalid");

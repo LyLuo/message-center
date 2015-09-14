@@ -27,7 +27,7 @@ public class FloatAttribute extends DefaultAttribute<Float> {
     @Override
     public byte[] dataToBinary(Float f) {
         if (f == null) {
-            throw new IllegalArgumentException("FloatAttribute dataToBinary f must not be null");
+            throw new NullPointerException("FloatAttribute dataToBinary f must not be null");
         }
         return NumberUtils.intToBytes4(Float.floatToRawIntBits(f));
     }

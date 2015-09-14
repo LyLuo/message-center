@@ -44,7 +44,7 @@ public class StringAttribute extends DefaultAttribute<String> {
     @Override
     public byte[] dataToBinary(String s) {
         if (s == null) {
-            throw new IllegalArgumentException("StringAttribute dataToBinary s must not be null");
+            throw new NullPointerException("StringAttribute dataToBinary s must not be null");
         }
         return s.getBytes(UTF_8);
     }

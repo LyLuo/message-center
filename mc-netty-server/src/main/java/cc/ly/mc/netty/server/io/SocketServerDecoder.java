@@ -1,4 +1,4 @@
-package cc.ly.mc.netty.server;
+package cc.ly.mc.netty.server.io;
 
 import cc.ly.mc.core.message.DefaultMessage;
 import cc.ly.mc.core.message.Message;

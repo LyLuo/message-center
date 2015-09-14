@@ -37,7 +37,7 @@ public class UnsignedByteAttribute extends DefaultAttribute<Short> {
     @Override
     public byte[] dataToBinary(Short s) {
         if (s == null) {
-            throw new IllegalArgumentException("UnsignedByteAttribute dataToBinary s must not be null");
+            throw new NullPointerException("UnsignedByteAttribute dataToBinary s must not be null");
         }
         return NumberUtils.unsignedByteToBytes1(s);
     }

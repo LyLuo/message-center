@@ -56,10 +56,10 @@ public class GroupedAttributeTest {
         RuntimeException re = null;
         try {
             attribute.dataFromBinary(null);
-        } catch (IllegalArgumentException e) {
+        } catch (NullPointerException e) {
             re = e;
         }
-        Assert.assertEquals(IllegalArgumentException.class, re.getClass());
+        Assert.assertEquals(NullPointerException.class, re.getClass());
     }
 
     @Test
@@ -155,9 +155,9 @@ public class GroupedAttributeTest {
         RuntimeException re = null;
         try {
             attribute.dataToBinary(null);
-        } catch (IllegalArgumentException e) {
+        } catch (NullPointerException e) {
             re = e;
         }
-        Assert.assertEquals(IllegalArgumentException.class, re.getClass());
+        Assert.assertEquals(NullPointerException.class, re.getClass());
     }
 }

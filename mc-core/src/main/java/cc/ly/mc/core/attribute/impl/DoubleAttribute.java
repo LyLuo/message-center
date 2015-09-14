@@ -26,7 +26,7 @@ public class DoubleAttribute extends DefaultAttribute<Double> {
     @Override
     public byte[] dataToBinary(Double d) {
         if (d == null) {
-            throw new IllegalArgumentException("DoubleAttribute dataToBinary d must not be null");
+            throw new NullPointerException("DoubleAttribute dataToBinary d must not be null");
         }
         return NumberUtils.longToBytes8(Double.doubleToRawLongBits(d));
     }

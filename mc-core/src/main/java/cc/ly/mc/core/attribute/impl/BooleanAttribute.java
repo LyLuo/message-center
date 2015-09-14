@@ -36,7 +36,7 @@ public class BooleanAttribute extends DefaultAttribute<Boolean> {
     @Override
     public byte[] dataToBinary(Boolean b) {
         if (b == null) {
-            throw new IllegalArgumentException("BooleanAttribute dataToBinary b must not be null");
+            throw new NullPointerException("BooleanAttribute dataToBinary b must not be null");
         }
         if (b) {
             return new byte[]{1};

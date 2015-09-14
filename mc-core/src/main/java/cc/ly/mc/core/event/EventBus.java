@@ -15,6 +15,8 @@ public class EventBus {
         private static final EventBus INSTANCE = new EventBus();
     }
 
+    private EventBus(){}
+
     private ExecutorService service = Executors.newCachedThreadPool();
 
     private Map<String, CopyOnWriteArrayList<EventObserver>> allObservers = new ConcurrentHashMap<>();

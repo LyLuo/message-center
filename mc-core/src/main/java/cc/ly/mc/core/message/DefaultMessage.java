@@ -104,7 +104,7 @@ public class DefaultMessage implements Message {
     @Override
     public void addAttribute(Attribute<?> attribute) {
         if (attribute == null) {
-            throw new IllegalArgumentException("attribute must not be null");
+            throw new NullPointerException("attribute must not be null");
         }
         if (! attribute.valid()) {
             throw new IllegalArgumentException("attribute is invalid");
@@ -126,7 +126,7 @@ public class DefaultMessage implements Message {
     @Override
     public void attach(Object key, Object value) {
         if (key == null) {
-            throw new IllegalArgumentException("key must not be null");
+            throw new NullPointerException("key must not be null");
         }
         attachs.put(key, value);
     }
@@ -134,7 +134,7 @@ public class DefaultMessage implements Message {
     @Override
     public Object attach(Object key) {
         if (key == null) {
-            throw new IllegalArgumentException("key must not be null");
+            throw new NullPointerException("key must not be null");
         }
         return attachs.get(key);
     }
@@ -161,7 +161,7 @@ public class DefaultMessage implements Message {
         //parse length
         buffer.get(lengthPayload);
         length = NumberUtils.bytes3ToInt(lengthPayload);
-        if (length <= Messages.MESSAGE_FIELDS_LENGTH){
+        if (length < Messages.MESSAGE_FIELDS_LENGTH){
             throw new IllegalArgumentException("message's length must bigger than " + Messages.MESSAGE_FIELDS_LENGTH + " but it's " + length);
         }
         if (payload.length < length) {
@@ -203,6 +203,6 @@ public class DefaultMessage implements Message {
      */
     @Override
     public void onReceived() {
-        EventBus.getInstance().notify(this.getClass().getSimpleName(), this);
+        EventBus.getInstance().notify(String.valueOf(this.code()), this);
     }
 }

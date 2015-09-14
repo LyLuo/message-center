@@ -25,7 +25,7 @@ public class UnsignedIntAttribute extends DefaultAttribute<Long> {
     @Override
     public byte[] dataToBinary(Long l) {
         if (l == null) {
-            throw new IllegalArgumentException("UnsignedIntAttribute dataToBinary l must not be null");
+            throw new NullPointerException("UnsignedIntAttribute dataToBinary l must not be null");
         }
         return NumberUtils.unsignedIntToBytes4(l);
     }
