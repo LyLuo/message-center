@@ -5,7 +5,7 @@ import cc.ly.mc.core.message.DefaultMessage;
 import cc.ly.mc.core.message.IdGenerator;
 import cc.ly.mc.core.message.Message;
 import cc.ly.mc.core.message.MessageFlag;
-import cc.ly.mc.netty.common.Constant;
+import cc.ly.mc.common.netty.Constant;
 
 /**
  * Created by ly on 9/15/15.
