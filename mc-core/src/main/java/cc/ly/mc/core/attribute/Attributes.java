@@ -2,6 +2,7 @@ package cc.ly.mc.core.attribute;
 
 import cc.ly.mc.core.util.NumberUtils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,10 +22,11 @@ public class Attributes {
     /**
      * 将payload解析为Attributes
      * Attribute = code(2) + flag(1) + length(3) + data
+     *
      * @param payload 待解析的数据
      * @return List Attribute
      */
-    public static List<Attribute<?>> parse(byte[] payload){
+    public static List<Attribute<?>> parse(byte[] payload) {
         List<Attribute<?>> attributes = new ArrayList<>();
         ByteBuffer buffer = ByteBuffer.wrap(payload);
         while (buffer.hasRemaining()) {
@@ -40,39 +42,36 @@ public class Attributes {
             code = NumberUtils.bytes2ToUnsignedShort(codePayload);
             flagPayload = buffer.get();
             flag = AttributeFlag.fromBinary(flagPayload);
-            Attribute<?> attribute;
-            try {
-                attribute = flag.attributeClass().newInstance();
-            } catch (IllegalAccessException | InstantiationException e) {
-                throw new IllegalArgumentException("failed to parse attributes", e);
-            }
-            if(attribute.isFixedLength()){
-                length = attribute.length();
+            if (flag.isFixedLength()) {
+                length = flag.length();
                 remain = length - CODE_FLAG_FIELDS_LENGTH;
-            }else {
+            } else {
                 buffer.get(lengthPayload);
                 length = NumberUtils.bytes3ToInt(lengthPayload);
                 remain = length - CODE_FLAG_LENGTH_FIELDS_LENGTH;
-                attribute.length(length);
             }
-            if(remain > buffer.remaining()){
+            if (remain > buffer.remaining()) {
                 throw new IllegalArgumentException("failed to parse attributes, length " + length + " of one attribute is bigger than length " + buffer.remaining() + " of remain attributes");
             }
             attributePayload = new byte[remain];
             buffer.get(attributePayload);
-            attribute.code(code);
-            attribute.fromBinary(attributePayload);
+            Attribute<?> attribute;
+            try {
+                attribute = flag.attributeClass().getConstructor(int.class, byte[].class).newInstance(code, attributePayload);
+            } catch (IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
+                throw new IllegalArgumentException("failed to parse attributes", e);
+            }
             attributes.add(attribute);
         }
         return attributes;
     }
 
-    public static int getLength(Collection<Attribute<?>> attributes){
-        if(attributes == null){
+    public static int getLength(Collection<Attribute<?>> attributes) {
+        if (attributes == null) {
             throw new NullPointerException("attributes can not be null");
         }
         return attributes.parallelStream().mapToInt(attribute -> {
-            if(!attribute.valid()){
+            if (!attribute.valid()) {
                 throw new IllegalArgumentException("attribute is invalid");
             }
             return attribute.length();

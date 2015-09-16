@@ -10,29 +10,30 @@ import java.nio.charset.Charset;
  */
 public class StringAttribute extends DefaultAttribute<String> {
 
+    public StringAttribute(){}
+
     private static final Charset UTF_8 = Charset.forName("UTF-8");
 
-    public StringAttribute(){
-        this.flag = AttributeFlag.STRING;
+    public StringAttribute(int code, String data) {
+        super(code, AttributeFlag.STRING, data.getBytes(UTF_8).length, data);
     }
 
-    @Override
-    public boolean isFixedLength(){
-        return false;
+    public StringAttribute(int code, byte[] dataPayload) {
+        super(code, AttributeFlag.STRING, dataPayload);
     }
 
     /**
      * 二进制数据转StringAttribute的data
      *
-     * @param payload 具体数据
+     * @param dataPayload 具体数据
      * @return string UTF-8
      */
     @Override
-    public String dataFromBinary(byte[] payload) {
-        if (payload == null) {
-            throw new IllegalArgumentException("StringAttribute dataFromBinary payload must not be null");
+    public String dataFromBinary(byte[] dataPayload) {
+        if (dataPayload == null) {
+            throw new NullPointerException("StringAttribute dataFromBinary payload must not be null");
         }
-        return new String(payload, UTF_8);
+        return new String(dataPayload, UTF_8);
     }
 
     /**

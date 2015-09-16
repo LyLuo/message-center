@@ -8,23 +8,28 @@ import cc.ly.mc.core.attribute.DefaultAttribute;
  */
 public class BooleanAttribute extends DefaultAttribute<Boolean> {
 
-    public BooleanAttribute(){
-        this.length = 4;
-        this.flag = AttributeFlag.BOOLEAN;
+    public BooleanAttribute(){}
+
+    public BooleanAttribute(int code, Boolean data) {
+        super(code, AttributeFlag.BOOLEAN, data);
+    }
+
+    public BooleanAttribute(int code, byte[] dataPayload) {
+        super(code, AttributeFlag.BOOLEAN, dataPayload);
     }
 
     /**
      * 二进制数据转BooleanAttribute的data
      *
-     * @param payload 具体数据，长度必须为1
+     * @param dataPayload 具体数据，长度必须为1
      * @return payload[0]为0返回false, 否则true
      */
     @Override
-    public Boolean dataFromBinary(byte[] payload) {
-        if (payload.length != 1) {
-            throw new IllegalArgumentException("BooleanAttribute data length must be 1 , but It's " + payload.length);
+    public Boolean dataFromBinary(byte[] dataPayload) {
+        if (dataPayload.length != 1) {
+            throw new IllegalArgumentException("BooleanAttribute data length must be 1 , but It's " + dataPayload.length);
         }
-        return payload[0] != 0;
+        return dataPayload[0] != 0;
     }
 
     /**

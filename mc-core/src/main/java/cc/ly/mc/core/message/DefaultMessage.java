@@ -6,9 +6,7 @@ import cc.ly.mc.core.event.EventBus;
 import cc.ly.mc.core.util.NumberUtils;
 
 import java.nio.ByteBuffer;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by ly on 9/8/15.
@@ -93,7 +91,16 @@ public class DefaultMessage implements Message {
 
     @Override
     public boolean hasAttribute(int... codes) {
-        return attributes.keySet().containsAll(Arrays.asList(codes));
+        if(codes == null){
+            throw new NullPointerException("codes must not be null");
+        }
+        Set<Integer> keySet = attributes.keySet();
+        for(int i = 0, size = codes.length; i < size; i++) {
+            if(!keySet.contains(codes[i])){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -109,14 +116,17 @@ public class DefaultMessage implements Message {
         if (! attribute.valid()) {
             throw new IllegalArgumentException("attribute is invalid");
         }
+        if (attributes.containsKey(attribute.code())){
+            throw new IllegalArgumentException("attribute already exits");
+        }
         attributes.put(attribute.code(), attribute);
         length += attribute.length();
     }
 
     @Override
-    public Attribute<?> removeAttribute(Integer code) {
+    public Attribute<?> removeAttribute(int code) {
         if(attributes().containsKey(code)){
-            Attribute<?> attribute = attributes().get(code);
+            Attribute<?> attribute = attributes().remove(code);
             this.length = length() - attribute.length();
             return attribute;
         }
@@ -151,6 +161,9 @@ public class DefaultMessage implements Message {
      */
     @Override
     public void fromBinary(byte[] payload) {
+        if (payload.length < Messages.MESSAGE_FIELDS_LENGTH){
+            throw new IllegalArgumentException("payload's length must bigger than " + Messages.MESSAGE_FIELDS_LENGTH + " but it's " + length);
+        }
         byte[] lengthPayload = new byte[Messages.LENGTH_FIELD_LENGTH];
         byte[] codePayload = new byte[Messages.CODE_FIELD_LENGTH];
         byte[] attributesPayload;

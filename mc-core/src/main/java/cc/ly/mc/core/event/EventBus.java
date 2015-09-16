@@ -1,5 +1,6 @@
 package cc.ly.mc.core.event;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -26,6 +27,9 @@ public class EventBus {
     }
 
     public void register(String name, EventObserver observer) {
+        if(name == null || observer == null){
+            throw new NullPointerException("name and observer must not be null");
+        }
         CopyOnWriteArrayList<EventObserver> queue = new CopyOnWriteArrayList<>();
         queue.add(observer);
         CopyOnWriteArrayList<EventObserver> observers = allObservers.putIfAbsent(name, queue);
@@ -34,8 +38,17 @@ public class EventBus {
         }
     }
 
+    public List<EventObserver> deregister(String name) {
+        if(name == null){
+            throw new NullPointerException("name are must not be null");
+        }
+        return allObservers.remove(name);
+    }
 
     public void deregister(String name, EventObserver observer) {
+        if(name == null || observer == null){
+            throw new NullPointerException("name and observer must not be null");
+        }
         if (allObservers.containsKey(name)) {
             allObservers.get(name).remove(observer);
         }
@@ -48,6 +61,9 @@ public class EventBus {
      * @param event 事件
      */
     public void notify(String name, Object event) {
+        if(name == null || event == null){
+            throw new NullPointerException("name and event are must not be null");
+        }
         if (allObservers.containsKey(name)) {
             allObservers.get(name).forEach(observer -> service.execute(() -> observer.update(event)));
         }

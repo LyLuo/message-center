@@ -6,6 +6,7 @@ import cc.ly.mc.core.attribute.Attributes;
 import cc.ly.mc.core.attribute.DefaultAttribute;
 
 import java.nio.ByteBuffer;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -14,24 +15,23 @@ import java.util.Map;
  */
 public class GroupedAttribute extends DefaultAttribute<Map<Integer, Attribute<?>>> {
 
-    public GroupedAttribute() {
-        this.flag = AttributeFlag.GROUPED;
-        this.data = new LinkedHashMap<>();
-        this.length = Attributes.CODE_FLAG_LENGTH_FIELDS_LENGTH;
+    public GroupedAttribute(){}
+
+    public GroupedAttribute(int code) {
+        super(code, AttributeFlag.GROUPED,0, new HashMap<>());
+    }
+
+    public GroupedAttribute(int code, byte[] dataPayload) {
+        super(code, AttributeFlag.GROUPED, dataPayload);
     }
 
     @Override
-    public boolean isFixedLength() {
-        return false;
-    }
-
-    @Override
-    public Map<Integer, Attribute<?>> dataFromBinary(byte[] payload) {
-        if (payload == null) {
+    public Map<Integer, Attribute<?>> dataFromBinary(byte[] dataPayload) {
+        if (dataPayload == null) {
             throw new NullPointerException("GroupedAttribute dataFromBinary payload must not be null");
         }
         Map<Integer, Attribute<?>> map = new LinkedHashMap<>();
-        Attributes.parse(payload).forEach(attribute -> map.put(attribute.code(), attribute));
+        Attributes.parse(dataPayload).forEach(attribute -> map.put(attribute.code(), attribute));
         return map;
     }
 
@@ -56,14 +56,14 @@ public class GroupedAttribute extends DefaultAttribute<Map<Integer, Attribute<?>
         if (data().containsKey(attribute.code())) {
             throw new IllegalArgumentException("attribute code already exists");
         }
-        length(length() + attribute.length());
+        this.length = length() + attribute.length();
         return data().put(attribute.code(), attribute);
     }
 
     public Attribute<?> removeAttribute(int code) {
         if (data().containsKey(code)) {
             Attribute<?> attribute = data().get(code);
-            length(length() - attribute.length());
+            this.length = length() - attribute.length();
         }
         return data().remove(code);
     }

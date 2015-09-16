@@ -1,5 +1,6 @@
 package cc.ly.mc.core.message;
 
+import cc.ly.mc.core.attribute.DefaultAttribute;
 import cc.ly.mc.core.attribute.impl.BooleanAttribute;
 import cc.ly.mc.core.attribute.impl.GroupedAttribute;
 import cc.ly.mc.core.attribute.impl.IntAttribute;
@@ -20,7 +21,7 @@ public class MessageTest {
                 0x00,0x00,0x00,0x01,
                 0x00,0x01,0x01,0x00,//boolean
                 0x00,0x0c,0x0c,0x00,0x00,0x08,0x41,0x61,//string
-                0x00,0x0e, (byte) 0xff,0x00,0x00,0x19,//grouped<boolean,int,string>
+                0x00,0x0e, (byte) 0x1f,0x00,0x00,0x19,//grouped<boolean,int,string>
                 0x00,0x01,0x01,0x00,
                 0x00,0x07,0x07,0x00,0x00,0x00,0x06,
                 0x00,0x0c,0x0c,0x00,0x00,0x08,0x41,0x61,
@@ -48,7 +49,7 @@ public class MessageTest {
                 0x00,0x00,0x00,0x01,
                 0x00,0x01,0x01,0x00,//boolean
                 0x00,0x0c,0x0c,0x00,0x00,0x08,0x41,0x61,//string
-                0x00,0x0e, (byte) 0xff,0x00,0x00,0x19,//grouped<boolean,int,string>
+                0x00,0x0e, (byte) 0x1f,0x00,0x00,0x19,//grouped<boolean,int,string>
                 0x00,0x01,0x01, 0x00,
                 0x00,0x07,0x07,0x00, 0x00,0x00,0x06,
                 0x00,0x0c,0x0c,0x00,0x00,0x08,0x41,0x61,
@@ -59,25 +60,12 @@ public class MessageTest {
         message.code(1);
         message.hopByHop(1);
         message.endToEnd(1);
-        BooleanAttribute booleanAttribute = new BooleanAttribute();
-        booleanAttribute.code(1);
-        booleanAttribute.data(false);
-        StringAttribute stringAttribute = new StringAttribute();
-        stringAttribute.code(12);
-        stringAttribute.data("Aa");
-        stringAttribute.length(8);
-        BooleanAttribute z = new BooleanAttribute();
-        z.code(1);
-        z.data(false);
-        IntAttribute i = new IntAttribute();
-        i.code(7);
-        i.data(6);
-        StringAttribute str = new StringAttribute();
-        str.code(12);
-        str.data("Aa");
-        str.length(8);
-        GroupedAttribute groupedAttribute = new GroupedAttribute();
-        groupedAttribute.code(14);
+        BooleanAttribute booleanAttribute = new BooleanAttribute(1,false);
+        StringAttribute stringAttribute = new StringAttribute(12,"Aa");
+        BooleanAttribute z = new BooleanAttribute(1,false);
+        IntAttribute i = new IntAttribute(7,6);
+        StringAttribute str = new StringAttribute(12,"Aa");
+        GroupedAttribute groupedAttribute = new GroupedAttribute(14);
         groupedAttribute.addAttribute(z);
         groupedAttribute.addAttribute(i);
         groupedAttribute.addAttribute(str);
@@ -90,5 +78,73 @@ public class MessageTest {
         Assert.assertNull(message.removeAttribute(0));
         message.attach("name", "defaultMessage");
         Assert.assertEquals("defaultMessage", message.attach("name"));
+    }
+
+    @Test
+    public void testOther(){
+        DefaultMessage message = new DefaultMessage();
+        message.addAttribute(new StringAttribute(1, "string"));
+        Assert.assertEquals(true, message.hasAttribute(1));
+        message.removeAttribute(1);
+        Assert.assertEquals(false, message.hasAttribute(1));
+        message.attach("info", "this is string attribute");
+        Assert.assertEquals("this is string attribute", message.attach("info"));
+        Exception actual = null;
+        IntAttribute b1 = new IntAttribute(1, 1);
+        IntAttribute b2 = new IntAttribute(1, 1);
+        try {
+            message.addAttribute(b1);
+            message.addAttribute(b2);
+        } catch (Exception e){
+            actual = e;
+        }
+        Assert.assertNotNull(actual);
+        Assert.assertEquals(IllegalArgumentException.class, actual.getClass());
+        try {
+            message.addAttribute(new DefaultAttribute() {
+                @Override
+                public Object dataFromBinary(byte[] payload) {
+                    return null;
+                }
+
+                @Override
+                public byte[] dataToBinary(Object o) {
+                    return new byte[0];
+                }
+            });
+        } catch (Exception e){
+            actual = e;
+        }
+        Assert.assertNotNull(actual);
+        Assert.assertEquals(IllegalArgumentException.class, actual.getClass());
+        try {
+            message.addAttribute(null);
+        } catch (Exception e){
+            actual = e;
+        }
+        Assert.assertNotNull(actual);
+        Assert.assertEquals(NullPointerException.class, actual.getClass());
+        try {
+            message.attach(null);
+        } catch (Exception e){
+            actual = e;
+        }
+        Assert.assertNotNull(actual);
+        Assert.assertEquals(NullPointerException.class, actual.getClass());
+        try {
+            message.attach(null, "");
+        } catch (Exception e){
+            actual = e;
+        }
+        Assert.assertNotNull(actual);
+        Assert.assertEquals(NullPointerException.class, actual.getClass());
+        Assert.assertTrue(message.valid());
+        try {
+            Assert.assertEquals(false, message.hasAttribute(null));
+        }catch (Exception e){
+            actual = e;
+        }
+        Assert.assertNotNull(actual);
+        Assert.assertEquals(NullPointerException.class, actual.getClass());
     }
 }

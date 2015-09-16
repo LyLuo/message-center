@@ -9,7 +9,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>mc-core</module>
-        <module>mc-netty-server</module>
-        <module>mc-server-event</module>
+        <module>mc-common-netty</module>
+        <module>mc-server-netty</module>
+        <module>mc-client-netty</module>
     </modules>
 </project>

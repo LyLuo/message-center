@@ -9,17 +9,22 @@ import cc.ly.mc.core.util.NumberUtils;
  */
 public class ShortAttribute extends DefaultAttribute<Short> {
 
-    public ShortAttribute(){
-        this.length = 5;
-        this.flag = AttributeFlag.SHORT;
+    public ShortAttribute(){}
+
+    public ShortAttribute(int code, Short data) {
+        super(code, AttributeFlag.SHORT, data);
+    }
+
+    public ShortAttribute(int code, byte[] dataPayload) {
+        super(code, AttributeFlag.SHORT, dataPayload);
     }
 
     @Override
-    public Short dataFromBinary(byte[] payload) {
-        if (payload.length != 2) {
-            throw new IllegalArgumentException("ShortAttribute data length must be 2 , but It's " + payload.length);
+    public Short dataFromBinary(byte[] dataPayload) {
+        if (dataPayload.length != 2) {
+            throw new IllegalArgumentException("ShortAttribute data length must be 2 , but It's " + dataPayload.length);
         }
-        return NumberUtils.bytes2ToShort(payload);
+        return NumberUtils.bytes2ToShort(dataPayload);
     }
 
     @Override

@@ -9,17 +9,22 @@ import cc.ly.mc.core.util.NumberUtils;
  */
 public class LongAttribute extends DefaultAttribute<Long> {
 
-    public LongAttribute(){
-        this.length = 11;
-        this.flag = AttributeFlag.LONG;
+    public LongAttribute(){}
+
+    public LongAttribute(int code, Long data) {
+        super(code, AttributeFlag.LONG, data);
+    }
+
+    public LongAttribute(int code, byte[] dataPayload) {
+        super(code, AttributeFlag.LONG, dataPayload);
     }
 
     @Override
-    public Long dataFromBinary(byte[] payload) {
-        if (payload.length != 8) {
-            throw new IllegalArgumentException("LongAttribute data length must be 8 , but It's " + payload.length);
+    public Long dataFromBinary(byte[] dataPayload) {
+        if (dataPayload.length != 8) {
+            throw new IllegalArgumentException("LongAttribute data length must be 8 , but It's " + dataPayload.length);
         }
-        return NumberUtils.bytes8ToLong(payload);
+        return NumberUtils.bytes8ToLong(dataPayload);
     }
 
     @Override

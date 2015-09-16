@@ -99,7 +99,7 @@ public interface Message extends Binary, Handler {
      * @param code attribute code
      * @return 移除的attribute,如果不存在返回null
      */
-    Attribute<?> removeAttribute(Integer code);
+    Attribute<?> removeAttribute(int code);
 
     /**
      * 附加相关的属性

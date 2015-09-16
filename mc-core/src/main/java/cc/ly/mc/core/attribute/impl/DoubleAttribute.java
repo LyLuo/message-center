@@ -10,17 +10,22 @@ import cc.ly.mc.core.util.NumberUtils;
  */
 public class DoubleAttribute extends DefaultAttribute<Double> {
 
-    public DoubleAttribute(){
-        this.length = 11;
-        this.flag = AttributeFlag.DOUBLE;
+    public DoubleAttribute(){}
+
+    public DoubleAttribute(int code, Double data) {
+        super(code, AttributeFlag.DOUBLE, data);
+    }
+
+    public DoubleAttribute(int code, byte[] dataPayload) {
+        super(code, AttributeFlag.DOUBLE, dataPayload);
     }
 
     @Override
-    public Double dataFromBinary(byte[] payload) {
-        if (payload.length != 8) {
-            throw new IllegalArgumentException("LongAttribute data length must be 8 , but It's " + payload.length);
+    public Double dataFromBinary(byte[] dataPayload) {
+        if (dataPayload.length != 8) {
+            throw new IllegalArgumentException("LongAttribute data length must be 8 , but It's " + dataPayload.length);
         }
-        return Double.longBitsToDouble(NumberUtils.bytes8ToLong(payload));
+        return Double.longBitsToDouble(NumberUtils.bytes8ToLong(dataPayload));
     }
 
     @Override

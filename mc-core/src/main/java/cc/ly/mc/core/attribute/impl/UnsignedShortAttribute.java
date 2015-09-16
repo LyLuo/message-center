@@ -9,17 +9,22 @@ import cc.ly.mc.core.util.NumberUtils;
  */
 public class UnsignedShortAttribute extends DefaultAttribute<Integer> {
 
-    public UnsignedShortAttribute(){
-        this.length = 5;
-        this.flag = AttributeFlag.UNSIGNED_SHORT;
+    public UnsignedShortAttribute(){};
+
+    public UnsignedShortAttribute(int code, Integer data) {
+        super(code, AttributeFlag.UNSIGNED_SHORT, data);
+    }
+
+    public UnsignedShortAttribute(int code, byte[] dataPayload) {
+        super(code, AttributeFlag.UNSIGNED_SHORT, dataPayload);
     }
 
     @Override
-    public Integer dataFromBinary(byte[] payload) {
-        if (payload.length != 2) {
-            throw new IllegalArgumentException("UnsignedShortAttribute data length must be 2 , but It's " + payload.length);
+    public Integer dataFromBinary(byte[] dataPayload) {
+        if (dataPayload.length != 2) {
+            throw new IllegalArgumentException("UnsignedShortAttribute data length must be 2 , but It's " + dataPayload.length);
         }
-        return NumberUtils.bytes2ToUnsignedShort(payload);
+        return NumberUtils.bytes2ToUnsignedShort(dataPayload);
     }
 
     @Override

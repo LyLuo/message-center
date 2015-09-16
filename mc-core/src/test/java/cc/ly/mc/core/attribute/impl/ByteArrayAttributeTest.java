@@ -13,6 +13,13 @@ public class ByteArrayAttributeTest {
         ByteArrayAttribute attribute = new ByteArrayAttribute();
         Assert.assertArrayEquals(new byte[]{0}, attribute.dataFromBinary(new byte[]{0}));
         Assert.assertArrayEquals(new byte[]{0,0,0,0}, attribute.dataFromBinary(new byte[]{0,0,0,0}));
+        RuntimeException re = null;
+        try {
+            attribute.dataFromBinary(null);
+        } catch (NullPointerException e) {
+            re = e;
+        }
+        Assert.assertEquals(NullPointerException.class, re.getClass());
     }
 
     @Test
@@ -20,5 +27,12 @@ public class ByteArrayAttributeTest {
         ByteArrayAttribute attribute = new ByteArrayAttribute();
         Assert.assertArrayEquals(new byte[]{0}, attribute.dataToBinary(new byte[]{0}));
         Assert.assertArrayEquals(new byte[]{0,0,0,0}, attribute.dataToBinary(new byte[]{0,0,0,0}));
+        RuntimeException re = null;
+        try {
+            attribute.dataToBinary(null);
+        } catch (NullPointerException e) {
+            re = e;
+        }
+        Assert.assertEquals(NullPointerException.class, re.getClass());
     }
 }

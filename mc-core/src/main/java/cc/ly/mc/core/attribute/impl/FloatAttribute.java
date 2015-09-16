@@ -10,17 +10,22 @@ import cc.ly.mc.core.util.NumberUtils;
  */
 public class FloatAttribute extends DefaultAttribute<Float> {
 
-    public FloatAttribute(){
-        this.length = 7;
-        this.flag = AttributeFlag.FLOAT;
+    public FloatAttribute(){}
+
+    public FloatAttribute(int code, Float data) {
+        super(code, AttributeFlag.FLOAT, data);
+    }
+
+    public FloatAttribute(int code, byte[] dataPayload) {
+        super(code, AttributeFlag.FLOAT, dataPayload);
     }
 
     @Override
-    public Float dataFromBinary(byte[] payload) {
-        if (payload.length != 4) {
-            throw new IllegalArgumentException("IntAttribute data length must be 4 , but It's " + payload.length);
+    public Float dataFromBinary(byte[] dataPayload) {
+        if (dataPayload.length != 4) {
+            throw new IllegalArgumentException("IntAttribute data length must be 4 , but It's " + dataPayload.length);
         }
-        return Float.intBitsToFloat(NumberUtils.bytes4ToInt(payload));
+        return Float.intBitsToFloat(NumberUtils.bytes4ToInt(dataPayload));
 
     }
 

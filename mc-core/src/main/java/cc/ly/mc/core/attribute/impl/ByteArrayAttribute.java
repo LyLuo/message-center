@@ -8,28 +8,25 @@ import cc.ly.mc.core.attribute.DefaultAttribute;
  */
 public class ByteArrayAttribute extends DefaultAttribute<byte[]> {
 
-    public ByteArrayAttribute(){
-        this.flag = AttributeFlag.BYTE_ARRAY;
-    }
+    public ByteArrayAttribute(){}
 
-    @Override
-    public boolean isFixedLength(){
-        return false;
+    public ByteArrayAttribute(int code, byte[] dataPayload) {
+        super(code, AttributeFlag.BYTE_ARRAY, dataPayload.length, dataPayload);
     }
 
     /**
      * 二进制数据转IgnoredDataTypeAttribute的data
      *
-     * @param payload 具体数据
+     * @param dataPayload 具体数据
      * @return 复制payload数据并返回
      */
     @Override
-    public byte[] dataFromBinary(byte[] payload) {
-        if (payload == null) {
+    public byte[] dataFromBinary(byte[] dataPayload) {
+        if (dataPayload == null) {
             throw new NullPointerException("IgnoredDataTypeAttribute dataFromBinary payload must not be null");
         }
-        byte[] bytes = new byte[payload.length];
-        System.arraycopy(payload, 0, bytes, 0, payload.length);
+        byte[] bytes = new byte[dataPayload.length];
+        System.arraycopy(dataPayload, 0, bytes, 0, dataPayload.length);
         return bytes;
     }
 

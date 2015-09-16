@@ -8,23 +8,28 @@ import cc.ly.mc.core.attribute.DefaultAttribute;
  */
 public class ByteAttribute extends DefaultAttribute<Byte> {
 
-    public ByteAttribute(){
-        this.length = 4;
-        this.flag = AttributeFlag.BYTE;
+    public ByteAttribute(){}
+
+    public ByteAttribute(int code, Byte data) {
+        super(code, AttributeFlag.BYTE, data);
+    }
+
+    public ByteAttribute(int code, byte[] dataPayload) {
+        super(code, AttributeFlag.BYTE, dataPayload);
     }
 
     /**
      * 二进制数据转ByteAttribute的data
      *
-     * @param payload 具体数据，长度必须为1
+     * @param dataPayload 具体数据，长度必须为1
      * @return payload[0]
      */
     @Override
-    public Byte dataFromBinary(byte[] payload) {
-        if (payload.length != 1) {
-            throw new IllegalArgumentException("UnsignedByteAttribute data length must be 1 , but It's " + payload.length);
+    public Byte dataFromBinary(byte[] dataPayload) {
+        if (dataPayload.length != 1) {
+            throw new IllegalArgumentException("UnsignedByteAttribute data length must be 1 , but It's " + dataPayload.length);
         }
-        return payload[0];
+        return dataPayload[0];
     }
 
     /**
