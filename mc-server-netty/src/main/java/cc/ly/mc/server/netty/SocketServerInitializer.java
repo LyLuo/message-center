@@ -13,23 +13,29 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package cc.ly.mc.client.netty;
+package cc.ly.mc.server.netty;
 
 import cc.ly.mc.common.netty.SocketDecoder;
 import cc.ly.mc.common.netty.SocketEncoder;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
 
 /**
  */
-public class SocketClientInitializer extends ChannelInitializer<SocketChannel> {
+public class SocketServerInitializer extends ChannelInitializer<SocketChannel> {
+	
+	public SocketServerInitializer(){
+	}
 	
 	@Override
 	public void initChannel(SocketChannel ch) throws Exception {
 		ChannelPipeline pipeline = ch.pipeline();
+		pipeline.addLast("idleStateHandler", new IdleStateHandler(0, 3, 0));
+		pipeline.addLast("heartbeat", new HeartbeatHandler());
 		pipeline.addLast("decoder", new SocketDecoder());
 		pipeline.addLast("encoder", new SocketEncoder());
-		pipeline.addLast("handler", new SocketClientHandler());
+		pipeline.addLast("handler", new SocketServerHandler());
 	}
 }

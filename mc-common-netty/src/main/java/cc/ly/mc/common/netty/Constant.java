@@ -1,4 +1,4 @@
-package cc.ly.mc.netty.common;
+package cc.ly.mc.common.netty;
 
 /**
  * Created by ly on 9/15/15.
