@@ -75,6 +75,7 @@ public class SocketServer extends Thread {
         EventBus.getInstance().register(Constant.HEARTBEAT_EVENT, new HeartbeatMessageObserver());
         EventBus.getInstance().register(Constant.REGISTER_EVENT, new RegisterMessageObserver());
         EventBus.getInstance().register(Constant.DEREGISTER_EVENT, new DeregisterMessageObserver());
+        EventBus.getInstance().register(Constant.BACKLOG_EVENT, new BacklogMessageObserver());
         EventBus.getInstance().register(Constant.TEXT_EVENT, new TextMessageObserver());
         new SocketServer(9090).start();
     }
