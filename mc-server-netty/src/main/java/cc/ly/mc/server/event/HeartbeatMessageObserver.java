@@ -16,7 +16,7 @@ public class HeartbeatMessageObserver implements EventObserver{
     public void update(Object source) {
         Message message = (Message) source;
         ChannelHandlerContext context = (ChannelHandlerContext) message.attach(ServerConstant.CHANNEL_HANDLER_CONTEXT);
+        LOGGER.info("channel from {} received a heartbeat message, set suspect false", context.channel().remoteAddress());
         context.attr(ServerConstant.SUSPECT).set(false);
-        LOGGER.info("channel from {} connected", context.channel().remoteAddress());
     }
 }
