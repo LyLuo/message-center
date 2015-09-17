@@ -9,17 +9,11 @@ import cc.ly.mc.core.message.*;
 public class MessageFactory {
 
     public static Message createHeartbeat() {
-        Message message = create();
-        message.code(Constant.MESSAGE_HEARTBEAT_CODE);
-        message.flag(MessageFlag.REQUEST);
-        return message;
+        return Messages.create(Constant.MESSAGE_HEARTBEAT_CODE, MessageFlag.REQUEST);
     }
 
     public static Message createKickOut() {
-        Message message = create();
-        message.code(Constant.MESSAGE_KICK_OUT_CODE);
-        message.flag(MessageFlag.REQUEST);
-        return message;
+        return Messages.create(Constant.MESSAGE_KICK_OUT_CODE, MessageFlag.REQUEST);
     }
 
     public static Message requestToAnswer(Message message, boolean isError){
@@ -28,11 +22,4 @@ public class MessageFactory {
         return answer;
     }
 
-    private static Message create() {
-        Message message = new DefaultMessage();
-        message.version((byte) 1);
-        message.hopByHop(IdGenerator.nextHopByHop());
-        message.endToEnd(IdGenerator.nextEndToEnd());
-        return message;
-    }
 }

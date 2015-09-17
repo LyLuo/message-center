@@ -45,6 +45,7 @@ public class MainPanel extends JPanel {
                 }
             }
         });
+        app.socketClient().write(MessageFactory.createBacklog());
     }
 
     public App app() {

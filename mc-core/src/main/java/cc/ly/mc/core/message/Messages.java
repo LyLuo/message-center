@@ -23,4 +23,14 @@ public class Messages {
         message.attributes().forEach((integer, attribute) -> answer.addAttribute(attribute));
         return answer;
     }
+
+    public static Message create(int code, MessageFlag flag) {
+        Message message = new DefaultMessage();
+        message.version((byte) 1);
+        message.code(code);
+        message.flag(flag);
+        message.hopByHop(IdGenerator.nextHopByHop());
+        message.endToEnd(IdGenerator.nextEndToEnd());
+        return message;
+    }
 }
