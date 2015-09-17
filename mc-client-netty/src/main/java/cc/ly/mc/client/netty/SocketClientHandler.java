@@ -15,7 +15,6 @@ public class SocketClientHandler extends SimpleChannelInboundHandler<Message> {
 		if(!message.valid()){
 			LOGGER.info("received a invalid message", message);
 		}else {
-			System.out.println("receive a message with  " + message.code());
 			message.onReceived();
 		}
 	}
