@@ -10,6 +10,7 @@ public class Constant {
     public static final int MESSAGE_REGISTER_CODE = 1;
     public static final int MESSAGE_DEREGISTER_CODE = 2;
     public static final int MESSAGE_KICK_OUT_CODE = 3;
+    public static final int MESSAGE_BACKLOG_CODE = 4;
     public static final int MESSAGE_TEXT_CODE = 100;
     //attribute code
     public static final int ATTRIBUTE_TOKEN_CODE = 1;
@@ -23,5 +24,7 @@ public class Constant {
     public static final String HEARTBEAT_EVENT = String.valueOf(Constant.MESSAGE_HEARTBEAT_CODE);
     public static final String REGISTER_EVENT = String.valueOf(Constant.MESSAGE_REGISTER_CODE);
     public static final String DEREGISTER_EVENT = String.valueOf(Constant.MESSAGE_DEREGISTER_CODE);
+    public static final String KICK_OUT_EVENT = String.valueOf(Constant.MESSAGE_KICK_OUT_CODE);
+    public static final String BACKLOG_EVENT = String.valueOf(Constant.MESSAGE_BACKLOG_CODE);
     public static final String TEXT_EVENT = String.valueOf(Constant.MESSAGE_TEXT_CODE);
 }

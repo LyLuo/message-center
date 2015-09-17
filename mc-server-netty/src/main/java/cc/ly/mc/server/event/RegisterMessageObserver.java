@@ -34,9 +34,5 @@ public class RegisterMessageObserver implements EventObserver {
         Context.getInstance().register(context);
         Message answer = MessageFactory.requestToAnswer(message, false);
         context.writeAndFlush(answer);
-        List<Message> backlog = DefaultBacklog.getInstance().consume(id);
-        LOGGER.info("{} has {} backlog messages", id, backlog.size());
-        backlog.forEach(m -> context.write(m).addListener(new DefaultWriteAndFlushListener(id, m)));
-        context.flush();
     }
 }
