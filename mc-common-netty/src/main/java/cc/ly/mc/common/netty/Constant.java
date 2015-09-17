@@ -17,4 +17,10 @@ public class Constant {
     public static final int ATTRIBUTE_RECEIVER_ID_CODE = 3;
     public static final int ATTRIBUTE_SENDER_NAME_CODE = 100;
     public static final int ATTRIBUTE_RECEIVER_NAME_CODE = 101;
+    public static final int ATTRIBUTE_TEXT_CODE = 102;
+
+    //消息事件
+    public static final String REGISTER_EVENT = String.valueOf(Constant.MESSAGE_REGISTER_CODE);
+    public static final String DEREGISTER_EVENT = String.valueOf(Constant.MESSAGE_DEREGISTER_CODE);
+    public static final String TEXT_EVENT = String.valueOf(Constant.MESSAGE_TEXT_CODE);
 }

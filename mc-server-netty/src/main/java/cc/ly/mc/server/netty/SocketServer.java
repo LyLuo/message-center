@@ -15,6 +15,7 @@
  */
 package cc.ly.mc.server.netty;
 
+import cc.ly.mc.common.netty.Constant;
 import cc.ly.mc.core.event.EventBus;
 import cc.ly.mc.server.ServerConstant;
 import cc.ly.mc.server.event.*;
@@ -71,9 +72,9 @@ public class SocketServer extends Thread {
     public static void main(String[] args) {
         EventBus.getInstance().register(ServerConstant.CONNECTED_EVENT, new ConnectedEventObserver());
         EventBus.getInstance().register(ServerConstant.DISCONNECTED_EVENT, new DisconnectedEventObserver());
-        EventBus.getInstance().register(ServerConstant.REGISTER_EVENT, new RegisterMessageObserver());
-        EventBus.getInstance().register(ServerConstant.DEREGISTER_EVENT, new DeregisterMessageObserver());
-        EventBus.getInstance().register(ServerConstant.TEXT_EVENT, new TextMessageObserver());
+        EventBus.getInstance().register(Constant.REGISTER_EVENT, new RegisterMessageObserver());
+        EventBus.getInstance().register(Constant.DEREGISTER_EVENT, new DeregisterMessageObserver());
+        EventBus.getInstance().register(Constant.TEXT_EVENT, new TextMessageObserver());
         new SocketServer(9090).start();
     }
 

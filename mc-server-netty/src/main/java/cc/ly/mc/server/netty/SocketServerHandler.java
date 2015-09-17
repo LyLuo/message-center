@@ -1,5 +1,6 @@
 package cc.ly.mc.server.netty;
 
+import cc.ly.mc.common.netty.Constant;
 import cc.ly.mc.core.event.EventBus;
 import cc.ly.mc.core.message.Message;
 import cc.ly.mc.server.ServerConstant;
@@ -21,6 +22,12 @@ public class SocketServerHandler extends SimpleChannelInboundHandler<Message> {
         if (!message.valid()) {
             LOGGER.info("received a invalid message", message);
         }else {
+            //tcp链接建立，未收到注册消息
+            if (!context.hasAttr(ServerConstant.REGISTERED) && message.code() != Constant.MESSAGE_REGISTER_CODE){
+                LOGGER.info("not registered ChannelHandlerContext only receive register message");
+                context.close();
+                return;
+            }
             message.attach(ServerConstant.CHANNEL_HANDLER_CONTEXT, context);
             message.onReceived();
         }

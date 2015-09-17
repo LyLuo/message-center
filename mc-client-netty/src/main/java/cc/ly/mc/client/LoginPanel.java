@@ -1,10 +1,8 @@
 package cc.ly.mc.client;
 
-import cc.ly.mc.message.MessageFactory;
+import cc.ly.mc.client.message.MessageFactory;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Created by ly on 9/15/15.
@@ -37,10 +35,6 @@ public class LoginPanel extends JPanel{
             }
             if (!"".equals(id.getText()) && !"".equals(name.getText())) {
                 app.socketClient().write(MessageFactory.createRegister(id.getText(), name.getText()));
-                app.getContentPane().removeAll();
-                app.getContentPane().add(new MainPanel(app, name.getText()));
-                app.getContentPane().validate();
-                app.getContentPane().repaint();
             }
         });
         reset.addActionListener(e -> {
