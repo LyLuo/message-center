@@ -8,7 +8,7 @@ import io.netty.util.concurrent.GenericFutureListener;
 /**
  * Created by ly on 9/14/15.
  */
-public class DefaultWriteAndFlushListener implements GenericFutureListener{
+public class DefaultWriteAndFlushListener implements GenericFutureListener<Future<Void>>{
 
     private String to;
 

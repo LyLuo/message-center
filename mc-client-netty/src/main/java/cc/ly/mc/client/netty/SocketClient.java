@@ -21,6 +21,8 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.oio.OioEventLoopGroup;
 import io.netty.channel.socket.oio.OioSocketChannel;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 
 /**
  * Echoes back any received data from a client.
@@ -65,6 +67,13 @@ public class SocketClient extends Thread {
     }
 
     public void write(Message message){
-       channel.writeAndFlush(message);
+       channel.writeAndFlush(message).addListener(new GenericFutureListener<Future<Void>>() {
+           @Override
+           public void operationComplete(Future future) throws Exception {
+              if(!future.isSuccess()){
+                  System.out.println("failed to send message");
+              }
+           }
+       });
     }
 }
