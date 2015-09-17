@@ -1,7 +1,7 @@
 package cc.ly.mc.client.event;
 
-import cc.ly.mc.client.App;
-import cc.ly.mc.client.MainPanel;
+import cc.ly.mc.client.gui.App;
+import cc.ly.mc.client.gui.MainPanel;
 import cc.ly.mc.common.netty.Constant;
 import cc.ly.mc.core.event.EventBus;
 import cc.ly.mc.core.event.EventObserver;
@@ -12,7 +12,6 @@ import cc.ly.mc.core.message.Message;
  */
 public class RegisterMessageObserver implements EventObserver {
     private final App app;
-
     public RegisterMessageObserver(App app) {
         this.app = app;
     }
@@ -26,8 +25,9 @@ public class RegisterMessageObserver implements EventObserver {
         Message message = (Message)source;
         if(!message.flag().isError()){
             app.getContentPane().removeAll();
-            app.id((String) message.attribute(Constant.ATTRIBUTE_SENDER_ID_CODE).data());
-            MainPanel mainPanel = new MainPanel(app, (String) message.attribute(Constant.ATTRIBUTE_SENDER_NAME_CODE).data());
+            app.userId((String) message.attribute(Constant.ATTRIBUTE_SENDER_ID_CODE).data());
+            app.userName((String) message.attribute(Constant.ATTRIBUTE_SENDER_NAME_CODE).data());
+            MainPanel mainPanel = new MainPanel(app);
             EventBus.getInstance().register(Constant.TEXT_EVENT, new TextMessageObserver(app, mainPanel));
             app.getContentPane().add(mainPanel);
             app.getContentPane().validate();

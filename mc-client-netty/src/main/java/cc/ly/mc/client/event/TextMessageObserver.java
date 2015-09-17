@@ -1,7 +1,7 @@
 package cc.ly.mc.client.event;
 
-import cc.ly.mc.client.App;
-import cc.ly.mc.client.MainPanel;
+import cc.ly.mc.client.gui.App;
+import cc.ly.mc.client.gui.MainPanel;
 import cc.ly.mc.common.netty.Constant;
 import cc.ly.mc.core.event.EventObserver;
 import cc.ly.mc.core.message.Message;

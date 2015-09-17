@@ -1,4 +1,4 @@
-package cc.ly.mc.client;
+package cc.ly.mc.client.gui;
 
 import cc.ly.mc.client.message.MessageFactory;
 

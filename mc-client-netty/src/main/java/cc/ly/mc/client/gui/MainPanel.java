@@ -1,8 +1,6 @@
-package cc.ly.mc.client;
+package cc.ly.mc.client.gui;
 
-import cc.ly.mc.client.event.TextMessageObserver;
 import cc.ly.mc.client.message.MessageFactory;
-import cc.ly.mc.common.netty.Constant;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,9 +13,7 @@ public class MainPanel extends JPanel {
 
     private JLabel success = new JLabel();
 
-    private DefaultListModel<String> dataModel = new DefaultListModel<>();
-
-    private JList<String> textList = new JList<>(dataModel);
+    private JList<String> textList = new JList<>(new DefaultListModel<>());
 
     private JPanel sendTextPanel = new JPanel();
 
@@ -29,23 +25,23 @@ public class MainPanel extends JPanel {
 
     private App app;
 
-    public MainPanel(App app, String name) {
+    public MainPanel(App app) {
         this.app = app;
-        this.app.setSize(600,400);
-        this.app.center();
         this.setLayout(new BorderLayout());
-        success.setText("hello " + name + ", welcome to chat!");
+        success.setText("hello " + app.userName() + ", welcome to chat!");
         this.add(success, BorderLayout.NORTH);
         this.add(textList, BorderLayout.CENTER);
         sendTextPanel.add(receiverId);
         sendTextPanel.add(text);
         sendTextPanel.add(send);
         this.add(sendTextPanel, BorderLayout.SOUTH);
+        app.setSize(600,400);
+        app.center();
         send.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!"".equals(receiverId.getText()) && !"".equals(text.getText())) {
-                    app.socketClient().write(MessageFactory.createText(app.id(), receiverId.getText(), text.getText()));
+                    app.socketClient().write(MessageFactory.createText(app.userId(), receiverId.getText(), text.getText()));
                 }
             }
         });
@@ -55,7 +51,7 @@ public class MainPanel extends JPanel {
         return app;
     }
 
-    public void addText(String text) {
-        dataModel.addElement(text);
+    public void addText(String text){
+        ((DefaultListModel<String>)textList.getModel()).addElement(text);
     }
 }

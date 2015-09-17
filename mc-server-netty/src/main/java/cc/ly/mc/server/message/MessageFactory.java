@@ -1,10 +1,7 @@
 package cc.ly.mc.server.message;
 
 import cc.ly.mc.common.netty.Constant;
-import cc.ly.mc.core.message.DefaultMessage;
-import cc.ly.mc.core.message.IdGenerator;
-import cc.ly.mc.core.message.Message;
-import cc.ly.mc.core.message.MessageFlag;
+import cc.ly.mc.core.message.*;
 
 /**
  * Created by ly on 9/13/15.
@@ -26,13 +23,8 @@ public class MessageFactory {
     }
 
     public static Message requestToAnswer(Message message, boolean isError){
-        Message answer = new DefaultMessage();
-        answer.version(message.version());
-        answer.code(message.code());
+        Message answer = Messages.copy(message);
         answer.flag(message.flag().requestToAnswer(isError));
-        answer.hopByHop(message.hopByHop());
-        answer.endToEnd(message.endToEnd());
-        message.attributes().forEach((integer, attribute) -> answer.addAttribute(attribute));
         return answer;
     }
 
