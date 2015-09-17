@@ -20,6 +20,7 @@ public class Constant {
     public static final int ATTRIBUTE_TEXT_CODE = 102;
 
     //消息事件
+    public static final String HEARTBEAT_EVENT = String.valueOf(Constant.HEARTBEAT_EVENT);
     public static final String REGISTER_EVENT = String.valueOf(Constant.MESSAGE_REGISTER_CODE);
     public static final String DEREGISTER_EVENT = String.valueOf(Constant.MESSAGE_DEREGISTER_CODE);
     public static final String TEXT_EVENT = String.valueOf(Constant.MESSAGE_TEXT_CODE);

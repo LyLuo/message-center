@@ -72,6 +72,7 @@ public class SocketServer extends Thread {
     public static void main(String[] args) {
         EventBus.getInstance().register(ServerConstant.CONNECTED_EVENT, new ConnectedEventObserver());
         EventBus.getInstance().register(ServerConstant.DISCONNECTED_EVENT, new DisconnectedEventObserver());
+        EventBus.getInstance().register(Constant.HEARTBEAT_EVENT, new RegisterMessageObserver());
         EventBus.getInstance().register(Constant.REGISTER_EVENT, new RegisterMessageObserver());
         EventBus.getInstance().register(Constant.DEREGISTER_EVENT, new DeregisterMessageObserver());
         EventBus.getInstance().register(Constant.TEXT_EVENT, new TextMessageObserver());

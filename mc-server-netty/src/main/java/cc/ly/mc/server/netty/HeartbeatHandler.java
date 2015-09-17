@@ -25,7 +25,7 @@ public class HeartbeatHandler extends ChannelHandlerAdapter {
                     LOGGER.info("suspect {} write idle happened again and close", ctx);
                     ctx.close();
                 }else{
-                    LOGGER.info("{} write idle happened and set context suspect", ctx);
+                    LOGGER.info("{} write idle happened and set context suspect true", ctx);
                     ctx.attr(ServerConstant.SUSPECT).set(true);
                     ctx.writeAndFlush(MessageFactory.createHeartbeat());
                 }
