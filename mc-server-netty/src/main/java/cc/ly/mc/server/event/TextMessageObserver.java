@@ -21,12 +21,12 @@ public class TextMessageObserver implements EventObserver {
         Message message = (Message) source;
         String from = (String) message.attribute(Constant.ATTRIBUTE_SENDER_ID_CODE).data();
         String to = (String) message.attribute(Constant.ATTRIBUTE_RECEIVER_ID_CODE).data();
-        LOGGER.debug("id {} send message to id {}", from, to);
-        ChannelHandlerContext toConext = Context.getInstance().get(to);
-        if (toConext == null) {
+        LOGGER.debug("{} send message to {}", from, to);
+        ChannelHandlerContext toContext = Context.getInstance().get(to);
+        if (toContext == null) {
             DefaultBacklog.getInstance().product(to, message);
         } else {
-            toConext.writeAndFlush(message).addListener(new DefaultWriteAndFlushListener(to, message));
+            toContext.writeAndFlush(message).addListener(new DefaultWriteAndFlushListener(to, message));
         }
     }
 }

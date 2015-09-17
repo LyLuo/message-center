@@ -1,7 +1,6 @@
 package cc.ly.mc.core.message;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 消息标志位表示类

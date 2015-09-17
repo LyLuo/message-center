@@ -1,6 +1,6 @@
 package cc.ly.mc.client.netty;
 
-import cc.ly.mc.core.message.*;
+import cc.ly.mc.core.message.Message;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.slf4j.Logger;

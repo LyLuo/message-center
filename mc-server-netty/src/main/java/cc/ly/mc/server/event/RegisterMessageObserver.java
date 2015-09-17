@@ -1,8 +1,8 @@
 package cc.ly.mc.server.event;
 
+import cc.ly.mc.common.netty.Constant;
 import cc.ly.mc.core.event.EventObserver;
 import cc.ly.mc.core.message.Message;
-import cc.ly.mc.common.netty.Constant;
 import cc.ly.mc.server.ServerConstant;
 import cc.ly.mc.server.context.Context;
 import cc.ly.mc.server.context.DefaultBacklog;
@@ -26,7 +26,7 @@ public class RegisterMessageObserver implements EventObserver {
         Message message = (Message) source;
         ChannelHandlerContext context = (ChannelHandlerContext) message.attach(ServerConstant.CHANNEL_HANDLER_CONTEXT);
         String id = (String) message.attribute(Constant.ATTRIBUTE_SENDER_ID_CODE).data();
-        LOGGER.info("id {} registered", id);
+        LOGGER.info("{} registered", id);
         context.pipeline().replace("idleStateHandler", "idleStateHandler", new IdleStateHandler(0, 30, 0));
         context.attr(ServerConstant.ID).set(id);
         context.attr(ServerConstant.SUSPECT).set(false);
@@ -35,6 +35,7 @@ public class RegisterMessageObserver implements EventObserver {
         Message answer = MessageFactory.requestToAnswer(message, false);
         context.writeAndFlush(answer);
         List<Message> backlog = DefaultBacklog.getInstance().consume(id);
+        LOGGER.info("{} has {} backlog messages", id, backlog.size());
         backlog.forEach(m -> context.write(m).addListener(new DefaultWriteAndFlushListener(id, m)));
         context.flush();
     }

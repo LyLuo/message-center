@@ -2,6 +2,7 @@ package cc.ly.mc.server.netty;
 
 import cc.ly.mc.server.ServerConstant;
 import cc.ly.mc.server.message.MessageFactory;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.timeout.IdleState;
@@ -27,7 +28,11 @@ public class HeartbeatHandler extends ChannelHandlerAdapter {
                 }else{
                     LOGGER.info("{} write idle happened and set context suspect true", ctx);
                     ctx.attr(ServerConstant.SUSPECT).set(true);
-                    ctx.writeAndFlush(MessageFactory.createHeartbeat());
+                    ctx.writeAndFlush(Unpooled.wrappedBuffer(MessageFactory.createHeartbeat().toBinary())).addListener(future -> {
+                        if (!future.isSuccess()) {
+                            LOGGER.info("failed to send heartbeat to {} message, cause by {} ", ctx.channel().remoteAddress(), future.cause());
+                        }
+                    });
                 }
             }
         }
