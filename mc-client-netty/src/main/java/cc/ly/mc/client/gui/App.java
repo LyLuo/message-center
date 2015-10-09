@@ -2,7 +2,6 @@ package cc.ly.mc.client.gui;
 
 import cc.ly.mc.client.event.HeartbeatMessageObserver;
 import cc.ly.mc.client.event.RegisterMessageObserver;
-import cc.ly.mc.client.gui.LoginPanel;
 import cc.ly.mc.client.netty.SocketClient;
 import cc.ly.mc.common.netty.Constant;
 import cc.ly.mc.core.event.EventBus;
@@ -22,7 +21,7 @@ public class App extends JFrame {
     private String userName;
 
     public App() {
-        socketClient = new SocketClient("192.168.0.109", 9090);
+        socketClient = new SocketClient("127.0.0.1", 9090);
         this.setSize(240, 135);
         center();
         this.setTitle("Welcome to CHAT");
