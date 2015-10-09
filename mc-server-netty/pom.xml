@@ -4,7 +4,6 @@
   <groupId>cc.ly.mc</groupId>
   <artifactId>mc-server-netty</artifactId>
   <version>0.0.1</version>
-  <packaging>jar</packaging>
 
   <name>mc-server-netty</name>
   <url>http://maven.apache.org</url>

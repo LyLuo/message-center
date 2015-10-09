@@ -4,7 +4,6 @@
     <groupId>cc.ly.mc</groupId>
     <artifactId>mc-core</artifactId>
     <version>0.0.1</version>
-    <packaging>pom</packaging>
 
     <name>mc-core</name>
     <url>http://maven.apache.org</url>

@@ -6,7 +6,6 @@
     <groupId>cc.ly</groupId>
     <artifactId>message-center</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
     <modules>
         <module>mc-core</module>
         <module>mc-common-netty</module>
